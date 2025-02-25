@@ -7,6 +7,7 @@ public class InputResultMatrixOp extends InputResult {
     // 1 - / n k
     // 2 - + n k multiplier
     // 3 - - n k multiplier
+    // 4 - swap n k
     private ConcurrentSkipListMap<String, Integer> params;
 
     public InputResultMatrixOp(boolean cont, ConcurrentSkipListMap<String, Integer> params) {

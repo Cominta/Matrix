@@ -13,13 +13,14 @@ public class NumZ extends Element implements Cloneable {
     }
 
     public NumZ(int number) {
+        this.countZ = -1;
         this.number = number;
-        this.handleCountZ();
     }
 
     public NumZ(int number, int countZ) {
         this(number);
         this.countZ = countZ;
+        this.handleCountZ();
     }
 
     private void handleCountZ() {
@@ -36,6 +37,7 @@ public class NumZ extends Element implements Cloneable {
     @Override
     public void multiply(int num) {
         this.number = this.number * num;
+        this.handleCountZ();
     }
 
     @Override
@@ -46,6 +48,7 @@ public class NumZ extends Element implements Cloneable {
         }
 
         this.number = this.number / num;
+        this.handleCountZ();
     }
 
     @Override

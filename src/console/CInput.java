@@ -126,6 +126,11 @@ public class CInput {
                 params.put("op", 3);
                 break;
 
+            case "s":
+                countParams = 2;
+                params.put("op", 4);
+                break;
+
             default:
                 ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid op"));
                 return null;
@@ -181,7 +186,7 @@ public class CInput {
             return new InputResultNewMatrix(true, result);
         }
 
-        else if (cmdSplit[0].equals("*") || cmdSplit[0].equals("/") || cmdSplit[0].equals("-") || cmdSplit[0].equals("+")) {
+        else if (cmdSplit[0].equals("*") || cmdSplit[0].equals("/") || cmdSplit[0].equals("-") || cmdSplit[0].equals("+") || cmdSplit[0].equals("s")) {
             for (int i = 0; i < cmdSplit.length; i++) {
                 cmdSplit[i] = cmdSplit[i].replaceAll(" ", "");
             }

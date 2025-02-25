@@ -85,6 +85,17 @@ public class Matrix {
             }
         }
 
+        else if (op == 4) {
+            if (k >= this.sizeY) {
+                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY)"));
+                return;
+            }
+
+            Element[] temp = newElements[n].clone();
+            newElements[n] = newElements[k].clone();
+            newElements[k] = temp;
+        }
+
         else {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid op"));
             return;
