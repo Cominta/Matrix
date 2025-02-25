@@ -18,7 +18,10 @@ public class NumR extends Element {
     }
 
     public void fit() {
-        if (denominator == 0) { } // EXEPTION
+        if (denominator == 0) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.DIVIDE_BY_ZERO, "Divide by zero"));
+            return;
+        }
 
         if(denominator < 0) {
             denominator *= -1;
@@ -30,7 +33,7 @@ public class NumR extends Element {
         }
 
         int gcd = Math.min(numerator, denominator);
-        for(gcd = gcd; gcd > 1; gcd-- ) {
+        for(; gcd > 1; gcd--) {
             if(numerator % gcd == 0 && denominator % gcd == 0) {
                 numerator /= gcd;
                 denominator /= gcd;
