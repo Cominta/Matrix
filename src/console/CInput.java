@@ -63,7 +63,7 @@ public class CInput {
 
                 try {
                     krat = Integer.parseInt(Character.toString(mode.charAt(1)));
-                    if(NumZ.isPrime(krat)) {
+                    if(!NumZ.isPrime(krat)) {
                         ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Mode is not a prime number"));
                         return new InputResultNewMatrix(true, null);
                     }
@@ -84,8 +84,9 @@ public class CInput {
         Matrix matrix = new Matrix(sizeX, sizeY);
         matrix.setMode(type);
 
+        COutput.printMessage("Enter matrix:\n");
+
         for (int i = 0; i < matrix.getSizeY(); i++) {
-            COutput.printMessage("Enter line(" + i + "):\n");
             String line = sc.nextLine();
             String[] tokens = line.split(" ");
 
