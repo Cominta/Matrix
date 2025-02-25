@@ -42,13 +42,27 @@ public class CInput {
         COutput.printMessage("Enter mode: ");
         String mode = sc.nextLine();
         Element.Types type;
+        int krat = -1;
 
         if (mode.equals("R")) {
             type = Element.Types.R;
         }
 
-        else if (mode.equals("Z")) {
+        else if (!mode.isEmpty() && mode.charAt(0) == 'Z') {
             type = Element.Types.Z;
+
+            if (mode.length() > 1) {
+                char kratChar = mode.charAt(1);
+
+                try {
+                    krat = Integer.parseInt(Character.toString(kratChar));
+                }
+
+                catch (Exception e) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Mode is not a number"));
+                    return null;
+                }
+            }
         }
 
         else {
@@ -77,7 +91,7 @@ public class CInput {
                 }
 
                 else {
-                    element = new NumZ(Integer.parseInt(tokens[j]));
+                    element = new NumZ(Integer.parseInt(tokens[j]), krat);
                 }
 
                 matrix.setElement(element, j, i);
@@ -102,6 +116,16 @@ public class CInput {
                 params.put("op", 1);
                 break;
 
+            case "+":
+                countParams = 3;
+                params.put("op", 2);
+                break;
+
+            case "-":
+                countParams = 3;
+                params.put("op", 3);
+                break;
+
             default:
                 ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid op"));
                 return null;
@@ -109,6 +133,7 @@ public class CInput {
 
         int n; // row
         int k; // coef
+        int multiplier = 0; // multiplier (for + and -)
 
         if (op.length - 1 != countParams) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid number of parameters"));
@@ -117,6 +142,10 @@ public class CInput {
         try {
             n = Integer.parseInt(op[1]);
             k = Integer.parseInt(op[2]);
+
+            if (countParams == 3) {
+                multiplier = Integer.parseInt(op[3]);
+            }
         }
 
         catch (Exception e) {
@@ -126,6 +155,10 @@ public class CInput {
 
         params.put("row", n);
         params.put("coef", k);
+
+        if (countParams == 3) {
+            params.put("multiplier", multiplier);
+        }
 
         return new InputResultMatrixOp(true, params);
     }

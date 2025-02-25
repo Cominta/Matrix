@@ -3,6 +3,7 @@ package matrix;
 import exception.ExceptionHandler;
 import exception.ExceptionObj;
 import matrix.elements.Element;
+import matrix.elements.NumZ;
 
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -29,30 +30,54 @@ public class Matrix {
         this.mode = mode;
     }
 
-    public void op(ConcurrentSkipListMap<String, Integer> params) {
+    public void opLine(ConcurrentSkipListMap<String, Integer> params) throws CloneNotSupportedException {
+        Element[][] newElements = this.elements.clone();
         int op = params.get("op");
         int n = params.get("row");
         int k = params.get("coef");
-        Element[][] newElements = this.elements.clone();
+        int multiplier = 0;
 
         if (n >= this.sizeY) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (n > sizeY)"));
             return;
         }
 
-        if (op == 0) {
-            for (int i = 0; i < this.sizeX; i++) {
-                newElements[n][i].multiply(k);
-
-                if (!ExceptionHandler.isEmpty()) {
+        if (op >= 0 && op <= 3) {
+            if (op >= 2) {
+                if (k >= this.sizeY) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY)"));
                     return;
                 }
-            }
-        }
 
-        else if (op == 1) {
-            for (int i = 0; i < this.sizeX; i++) {
-                newElements[n][i].divide(k);
+                multiplier = params.get("multiplier");
+            }
+
+            for (int i = 0; i < sizeX; i++) {
+                Element element = null;
+
+                if (op >= 2) {
+                    element = (NumZ)((NumZ)newElements[k][i]).clone();
+                }
+
+                switch (op) {
+                    case 0:
+                        newElements[n][i].multiply(k);
+                        break;
+
+                    case 1:
+                        newElements[n][i].divide(k);
+                        break;
+
+                    case 2:
+                        element.multiply(multiplier);
+                        newElements[n][i].add(element);
+                        break;
+
+                    case 3:
+                        element.multiply(multiplier);
+                        newElements[n][i].subtract(element);
+                        break;
+                }
 
                 if (!ExceptionHandler.isEmpty()) {
                     return;
@@ -62,13 +87,14 @@ public class Matrix {
 
         else {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid op"));
-        }
-
-        if (!ExceptionHandler.isEmpty()) {
             return;
         }
 
         this.elements = newElements;
+    }
+
+    public void op(ConcurrentSkipListMap<String, Integer> params) {
+
     }
 
     public int getSizeX() { return sizeX; }

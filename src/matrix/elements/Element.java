@@ -6,11 +6,10 @@ public abstract class Element {
         Z
     }
 
-    public void multiply(int num) {
-
-    }
-
-    public void divide(int num) {
-
-    }
+    public abstract void multiply(int num);
+    public abstract void divide(int num);
+    public abstract void add(int num);
+    public abstract void add(Element num);
+    public abstract void subtract(int num);
+    public abstract void subtract(Element num);
 }

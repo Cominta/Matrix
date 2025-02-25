@@ -3,7 +3,7 @@ package matrix.elements;
 import exception.ExceptionHandler;
 import exception.ExceptionObj;
 
-public class NumZ extends Element {
+public class NumZ extends Element implements Cloneable {
     private int countZ;
     private int number;
 
@@ -14,11 +14,18 @@ public class NumZ extends Element {
 
     public NumZ(int number) {
         this.number = number;
+        this.handleCountZ();
     }
 
     public NumZ(int number, int countZ) {
         this(number);
         this.countZ = countZ;
+    }
+
+    private void handleCountZ() {
+        if (this.countZ != -1) {
+            this.number = this.number % this.countZ;
+        }
     }
 
     @Override
@@ -39,5 +46,34 @@ public class NumZ extends Element {
         }
 
         this.number = this.number / num;
+    }
+
+    @Override
+    public void add(int num) {
+        this.number = this.number + num;
+        this.handleCountZ();
+    }
+
+    @Override
+    public void add(Element num) {
+        this.number = this.number + ((NumZ)num).number;
+        this.handleCountZ();
+    }
+
+    @Override
+    public void subtract(int num) {
+        this.number = this.number - num;
+        this.handleCountZ();
+    }
+
+    @Override
+    public void subtract(Element num) {
+        this.number = this.number - ((NumZ)num).number;
+        this.handleCountZ();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

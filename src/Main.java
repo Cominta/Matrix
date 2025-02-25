@@ -10,7 +10,7 @@ import matrix.Matrix;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         InputResult result = new InputResult(true, InputResult.Types.NONE);
         Matrix matrix = null;
 
@@ -49,7 +49,7 @@ public class Main {
                 }
 
                 COutput.printMessage("Op: " + params.get("op") + ", params = " + s + "\n");
-                matrix.op(params);
+                matrix.opLine(params);
                 COutput.printMatrix(matrix, "Matrix after op: ");
             }
         }
