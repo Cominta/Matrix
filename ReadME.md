@@ -18,20 +18,20 @@ To use this program, ensure you have the following:
 Clone the repository:
 
 ```sh
- git clone <repository_url>
+ git clone https://github.com/Cominta/Matrix/edit/master
  cd matrix-calculator
 ```
 
 Compile the program:
 
 ```sh
-javac -d bin -sourcepath src src/console/CInput.java
+javac -d bin -sourcepath src src/console/Main.java
 ```
 
 Run the program:
 
 ```sh
-java -cp bin console.CInput
+java -cp bin console.Main.java
 ```
 
 ## 🚀 Usage
