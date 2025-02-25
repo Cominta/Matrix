@@ -11,6 +11,7 @@ import matrix.elements.Element;
 import matrix.elements.NumR;
 import matrix.elements.NumZ;
 
+
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -59,10 +60,12 @@ public class CInput {
             type = Element.Types.Z;
 
             if (mode.length() > 1) {
-                char kratChar = mode.charAt(1);
 
                 try {
-                    krat = Integer.parseInt(Character.toString(kratChar));
+                    krat = Integer.parseInt(Character.toString(mode.charAt(1)));
+                    if(NumZ.isPrime(krat)) {
+                        throw new Exception("The number is not a prime number.");
+                    }
                 }
 
                 catch (Exception e) {

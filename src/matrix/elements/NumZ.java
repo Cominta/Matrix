@@ -29,6 +29,15 @@ public class NumZ extends Element implements Cloneable {
         }
     }
 
+    public static boolean isPrime(int number) {
+        for(int i = 2; i < number; i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         return Integer.toString(number);
