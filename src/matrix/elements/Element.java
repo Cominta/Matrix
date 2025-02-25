@@ -3,11 +3,15 @@ package matrix.elements;
 public abstract class Element {
     public enum Types {
         R,
-        Z
+        Z,
+        O,
+        V
     }
 
     public abstract void multiply(int num);
+    public abstract void multiply(Element num);
     public abstract void divide(int num);
+    public abstract void divide(Element num);
     public abstract void add(int num);
     public abstract void add(Element num);
     public abstract void subtract(int num);

@@ -29,6 +29,15 @@ public class NumZ extends Element implements Cloneable {
         }
     }
 
+    public static boolean isPrime(int number) {
+        for(int i = 2; i < number; i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         return Integer.toString(number);
@@ -38,6 +47,11 @@ public class NumZ extends Element implements Cloneable {
     public void multiply(int num) {
         this.number = this.number * num;
         this.handleCountZ();
+    }
+
+    @Override
+    public void multiply(Element num) {
+        this.multiply(((NumZ)num).number);
     }
 
     @Override
@@ -52,6 +66,11 @@ public class NumZ extends Element implements Cloneable {
     }
 
     @Override
+    public void divide(Element num) {
+        this.divide(((NumZ)num).number);
+    }
+
+    @Override
     public void add(int num) {
         this.number = this.number + num;
         this.handleCountZ();
@@ -59,8 +78,7 @@ public class NumZ extends Element implements Cloneable {
 
     @Override
     public void add(Element num) {
-        this.number = this.number + ((NumZ)num).number;
-        this.handleCountZ();
+        this.add(((NumZ)num).number);
     }
 
     @Override
@@ -71,8 +89,7 @@ public class NumZ extends Element implements Cloneable {
 
     @Override
     public void subtract(Element num) {
-        this.number = this.number - ((NumZ)num).number;
-        this.handleCountZ();
+        this.subtract(((NumZ)num).number);
     }
 
     @Override

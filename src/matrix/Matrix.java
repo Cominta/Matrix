@@ -3,6 +3,7 @@ package matrix;
 import exception.ExceptionHandler;
 import exception.ExceptionObj;
 import matrix.elements.Element;
+import matrix.elements.NumR;
 import matrix.elements.NumZ;
 
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -37,15 +38,15 @@ public class Matrix {
         int k = params.get("k");
         int multiplier = 0;
 
-        if (n >= this.sizeY) {
-            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (n > sizeY)"));
+        if (n >= this.sizeY || n < 0) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (n > sizeY || n < 0)"));
             return;
         }
 
         if (op >= 0 && op <= 3) {
             if (op >= 2) {
-                if (k >= this.sizeY) {
-                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY)"));
+                if (k >= this.sizeY || k < 0) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
                     return;
                 }
 
@@ -86,8 +87,8 @@ public class Matrix {
         }
 
         else if (op == 4) {
-            if (k >= this.sizeY) {
-                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY)"));
+            if (k >= this.sizeY || k < 0) {
+                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
                 return;
             }
 
@@ -104,8 +105,60 @@ public class Matrix {
         this.elements = newElements;
     }
 
-    public void op(ConcurrentSkipListMap<String, Integer> params) {
+    public void opMWM(int op, Matrix matrix) {
+        if (this.sizeX != matrix.sizeY) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INVALID_SIZES, "Invalid sizes of matrix"));
+            return;
+        }
 
+        if (op == 5) {
+
+        }
+
+        else if (op == 6) {
+            this.multiplyMWM(matrix);
+        }
+
+        else {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Input operator"));
+            return;
+        }
+    }
+
+    private void multiplyMWM(Matrix matrix) {
+        Element[][] newElements = new Element[this.sizeY][matrix.sizeX];
+        Element[][] thisElements = this.elements.clone();
+
+        for (int i = 0; i < this.sizeY; i++) {
+            for (int j = 0; j < matrix.sizeX; j++) {
+                Element sum;
+
+                if (this.mode == Element.Types.Z) {
+                    sum = new NumZ(0, ((NumZ)thisElements[0][0]).getCountZ());
+                }
+
+                else {
+                    sum = new NumR();
+                }
+
+                for (int k = 0; k < this.sizeX; k++) {
+                    thisElements[i][k].multiply(matrix.getElement(j, k));
+                    sum.add(thisElements[i][k]);
+
+                    if (!ExceptionHandler.isEmpty()) {
+                        return;
+                    }
+                }
+
+                newElements[i][j] = sum;
+            }
+        }
+
+        this.elements = newElements.clone();
+    }
+
+    private void sumMWM(Matrix matrix) {
+        return;
     }
 
     public int getSizeX() { return sizeX; }

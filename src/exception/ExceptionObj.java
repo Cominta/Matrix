@@ -5,7 +5,9 @@ public class ExceptionObj {
         INPUT_ERROR,
         OUT_OF_RANGE,
         DIVIDE_BY_ZERO,
-        NULL_MATRIX
+        NULL_MATRIX,
+        INVALID_MODES,
+        INVALID_SIZES,
     }
 
     Types type;
