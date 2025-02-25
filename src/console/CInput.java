@@ -64,7 +64,8 @@ public class CInput {
                 try {
                     krat = Integer.parseInt(Character.toString(mode.charAt(1)));
                     if(NumZ.isPrime(krat)) {
-                        throw new Exception("The number is not a prime number.");
+                        ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Mode is not a prime number"));
+                        return new InputResultNewMatrix(true, null);
                     }
                 }
 

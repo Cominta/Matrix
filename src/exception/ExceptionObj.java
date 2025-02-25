@@ -7,7 +7,7 @@ public class ExceptionObj {
         DIVIDE_BY_ZERO,
         NULL_MATRIX,
         INVALID_MODES,
-        INVALID_SIZES
+        INVALID_SIZES,
     }
 
     Types type;
