@@ -22,18 +22,6 @@ Clone the repository:
  cd matrix-calculator
 ```
 
-Compile the program:
-
-```sh
-javac -d bin -sourcepath src src/console/Main.java
-```
-
-Run the program:
-
-```sh
-java -cp bin console.Main.java
-```
-
 ## 🚀 Usage
 
 When the program starts, it will prompt you to enter commands. The available commands are:
