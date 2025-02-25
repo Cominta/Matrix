@@ -28,7 +28,17 @@ public class NumR extends Element {
     }
 
     @Override
+    public void multiply(Element num) {
+
+    }
+
+    @Override
     public void divide(int num) {
+
+    }
+
+    @Override
+    public void divide(Element num) {
 
     }
 

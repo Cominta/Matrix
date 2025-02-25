@@ -41,6 +41,11 @@ public class NumZ extends Element implements Cloneable {
     }
 
     @Override
+    public void multiply(Element num) {
+        this.multiply(((NumZ)num).number);
+    }
+
+    @Override
     public void divide(int num) {
         if (num == 0) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.DIVIDE_BY_ZERO, "Divide by zero"));
@@ -52,6 +57,11 @@ public class NumZ extends Element implements Cloneable {
     }
 
     @Override
+    public void divide(Element num) {
+        this.divide(((NumZ)num).number);
+    }
+
+    @Override
     public void add(int num) {
         this.number = this.number + num;
         this.handleCountZ();
@@ -59,8 +69,7 @@ public class NumZ extends Element implements Cloneable {
 
     @Override
     public void add(Element num) {
-        this.number = this.number + ((NumZ)num).number;
-        this.handleCountZ();
+        this.add(((NumZ)num).number);
     }
 
     @Override
@@ -71,8 +80,7 @@ public class NumZ extends Element implements Cloneable {
 
     @Override
     public void subtract(Element num) {
-        this.number = this.number - ((NumZ)num).number;
-        this.handleCountZ();
+        this.subtract(((NumZ)num).number);
     }
 
     @Override

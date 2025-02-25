@@ -19,6 +19,7 @@ public class Main {
         InputResult result = new InputResult(true, InputResult.Types.NONE);
         List<Matrix> matrixList = new ArrayList<Matrix>();
         Matrix currentMatrix = null;
+        int currentIndex = -1;
 
         while (result.isCont()) {
             if (!ExceptionHandler.isEmpty()) {
@@ -37,6 +38,7 @@ public class Main {
                 COutput.printMatrix(matrix, "New matrix: ");
                 matrixList.add(matrix);
                 currentMatrix = matrix;
+                currentIndex = matrixList.size() - 1;
             }
 
             else if (result.getType() == InputResult.Types.MATRIX_OP) {
@@ -61,6 +63,69 @@ public class Main {
                 COutput.printMatrix(currentMatrix, "Matrix after op: ");
             }
 
+            else if (result.getType() == InputResult.Types.MWM_OP) {
+                ConcurrentSkipListMap<String, Integer> params = ((InputResultMatrixOp)result).getParams();
+                int m1;
+                int m2;
+
+                if (params.get("m1") > matrixList.size() || params.get("m2") > matrixList.size() || params.get("m1") < -2 || params.get("m2") < -2) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Out of range"));
+                    continue;
+                }
+
+                // m1
+                if (params.get("m1") == -1) {
+                    if (currentMatrix == null) {
+                        ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.NULL_MATRIX, "Null matrix"));
+                        continue;
+                    }
+
+                    m1 = currentIndex;
+                }
+
+                else if (params.get("m1") == -2) {
+                    InputResultNewMatrix newM = CInput.readNewMatrix();
+                    matrixList.add(newM.getMatrix());
+                    m1 = matrixList.size() - 1;
+                    params.remove("m1");
+                    params.put("m1", matrixList.size() - 1);
+                }
+
+                else {
+                    m1 = params.get("m1");
+                }
+
+                // m2
+                if (params.get("m2") == -1) {
+                    if (currentMatrix == null) {
+                        ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.NULL_MATRIX, "Null matrix"));
+                        continue;
+                    }
+
+                    m2 = currentIndex;
+                }
+
+                else if (params.get("m2") == -2) {
+                    InputResultNewMatrix newM = CInput.readNewMatrix();
+                    matrixList.add(newM.getMatrix());
+                    m2 = matrixList.size() - 1;
+                    params.remove("m2");
+                    params.put("m2", matrixList.size() - 1);
+                }
+
+                else {
+                    m2 = params.get("m2");
+                }
+
+                if (matrixList.get(m1).getMode() != matrixList.get(m2).getMode()) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INVALID_MODES, "Invalid modes of matrix"));
+                    continue;
+                }
+
+                matrixList.get(m1).opMWM(params.get("op"), matrixList.get(m2));
+                COutput.printMatrix(matrixList.get(m1), "Matrix after op: ");
+            }
+
             else if (result.getType() == InputResult.Types.SET_OP) {
                 ConcurrentSkipListMap<String, String> params = ((InputResultOp)result).getParams();
 
@@ -70,7 +135,7 @@ public class Main {
                     try {
                         n = Integer.parseInt(params.get("n"));
 
-                        if (n >= matrixList.size()) {
+                        if (n >= matrixList.size() || n < 0) {
                             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "n > matrix list size: " + matrixList.size()));
                             continue;
                         }
@@ -82,6 +147,7 @@ public class Main {
                     }
 
                     currentMatrix = matrixList.get(n);
+                    currentIndex = n;
                 }
             }
 
