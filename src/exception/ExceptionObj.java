@@ -3,7 +3,9 @@ package exception;
 public class ExceptionObj {
     public enum Types {
         INPUT_ERROR,
-        OUT_OF_RANGE
+        OUT_OF_RANGE,
+        DIVIDE_BY_ZERO,
+        NULL_MATRIX
     }
 
     Types type;

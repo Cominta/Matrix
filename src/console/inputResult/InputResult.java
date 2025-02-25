@@ -8,8 +8,8 @@ public class InputResult {
         MATRIX_OP
     }
 
-    public boolean cont;
-    public Types type;
+    protected boolean cont;
+    protected Types type;
 
     public InputResult(boolean cont) {
         this.cont = cont;
@@ -20,4 +20,8 @@ public class InputResult {
         this.cont = cont;
         this.type = type;
     }
+
+    public boolean isCont() { return cont; }
+
+    public Types getType() { return type; }
 }

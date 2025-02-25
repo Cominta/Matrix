@@ -1,8 +1,16 @@
 package matrix.elements;
 
-public class Element {
+public abstract class Element {
     public enum Types {
         R,
         Z
+    }
+
+    public void multiply(int num) {
+
+    }
+
+    public void divide(int num) {
+
     }
 }

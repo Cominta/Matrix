@@ -1,6 +1,7 @@
 package console;
 
 import console.inputResult.InputResult;
+import console.inputResult.InputResultMatrixOp;
 import console.inputResult.InputResultNewMatrix;
 import exception.ExceptionHandler;
 import exception.ExceptionObj;
@@ -10,6 +11,7 @@ import matrix.elements.NumR;
 import matrix.elements.NumZ;
 
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class CInput {
     private static Matrix readNewMatrix() {
@@ -82,19 +84,59 @@ public class CInput {
             }
         }
 
-        COutput.printMatrix(matrix, "New matrix: ");
         return matrix;
     }
 
-    public static void readOp(String op) {
+    public static InputResultMatrixOp readOp(String[] op) {
+        ConcurrentSkipListMap<String, Integer> params = new ConcurrentSkipListMap<>();
+        int countParams;
 
+        switch (op[0]) {
+            case "*":
+                countParams = 2;
+                params.put("op", 0);
+                break;
+
+            case "/":
+                countParams = 2;
+                params.put("op", 1);
+                break;
+
+            default:
+                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid op"));
+                return null;
+        }
+
+        int n; // row
+        int k; // coef
+
+        if (op.length - 1 != countParams) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid number of parameters"));
+        }
+
+        try {
+            n = Integer.parseInt(op[1]);
+            k = Integer.parseInt(op[2]);
+        }
+
+        catch (Exception e) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Params are not a number"));
+            return null;
+        }
+
+        params.put("row", n);
+        params.put("coef", k);
+
+        return new InputResultMatrixOp(true, params);
     }
 
     public static InputResult readCommand() {
         Scanner sc = new Scanner(System.in);
 
         COutput.printMessage("Enter command: ");
-        String cmd = sc.nextLine().replaceAll(" ", "");
+        String cmd = sc.nextLine();
+        String[] cmdSplit = cmd.split(" ");
+        cmd = cmd.replaceAll(" ", "");
 
         if (cmd.equals("new")) {
             Matrix result = CInput.readNewMatrix();
@@ -106,10 +148,18 @@ public class CInput {
             return new InputResultNewMatrix(true, result);
         }
 
-        else if (cmd.equals("*")) {
-            CInput.readOp(cmd);
+        else if (cmdSplit[0].equals("*") || cmdSplit[0].equals("/") || cmdSplit[0].equals("-") || cmdSplit[0].equals("+")) {
+            for (int i = 0; i < cmdSplit.length; i++) {
+                cmdSplit[i] = cmdSplit[i].replaceAll(" ", "");
+            }
 
-            return new InputResult(true, InputResult.Types.INPUT_OP);
+            InputResultMatrixOp result = CInput.readOp(cmdSplit);
+
+            if (!ExceptionHandler.isEmpty()) {
+                return new InputResultMatrixOp(true, null);
+            }
+
+            return result;
         }
 
         else if (cmd.equals("exit")) {

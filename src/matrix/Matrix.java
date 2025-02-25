@@ -4,6 +4,8 @@ import exception.ExceptionHandler;
 import exception.ExceptionObj;
 import matrix.elements.Element;
 
+import java.util.concurrent.ConcurrentSkipListMap;
+
 public class Matrix {
     Element[][] elements;
     private int sizeX;
@@ -25,6 +27,48 @@ public class Matrix {
         this(sizeX, sizeY);
         this.elements = elements;
         this.mode = mode;
+    }
+
+    public void op(ConcurrentSkipListMap<String, Integer> params) {
+        int op = params.get("op");
+        int n = params.get("row");
+        int k = params.get("coef");
+        Element[][] newElements = this.elements.clone();
+
+        if (n >= this.sizeY) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (n > sizeY)"));
+            return;
+        }
+
+        if (op == 0) {
+            for (int i = 0; i < this.sizeX; i++) {
+                newElements[n][i].multiply(k);
+
+                if (!ExceptionHandler.isEmpty()) {
+                    return;
+                }
+            }
+        }
+
+        else if (op == 1) {
+            for (int i = 0; i < this.sizeX; i++) {
+                newElements[n][i].divide(k);
+
+                if (!ExceptionHandler.isEmpty()) {
+                    return;
+                }
+            }
+        }
+
+        else {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid op"));
+        }
+
+        if (!ExceptionHandler.isEmpty()) {
+            return;
+        }
+
+        this.elements = newElements;
     }
 
     public int getSizeX() { return sizeX; }
