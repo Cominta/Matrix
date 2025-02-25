@@ -19,7 +19,7 @@ public class CInput {
         COutput.printMessage("Reading new matrix\n");
         Scanner sc = new Scanner(System.in);
 
-        COutput.printMessage("Enter size: ");
+        COutput.printMessage("Enter size(r/c): ");
         String sizeLine = sc.nextLine();
         String[] sizes = sizeLine.split(" ");
 
@@ -41,7 +41,7 @@ public class CInput {
             return new InputResultNewMatrix(true, null);
         }
 
-        COutput.printMessage("Enter mode: ");
+        COutput.printMessage("Enter mode(Z/R): ");
         String mode = sc.nextLine();
         Element.Types type;
         int krat = -1;
@@ -50,7 +50,7 @@ public class CInput {
             type = Element.Types.R;
         }
 
-        else if (!mode.isEmpty() && mode.charAt(0) == 'Z') {
+        else if (!mode.isEmpty() && (mode.charAt(0) == 'Z' || mode.charAt(0) == 'z')) {
             type = Element.Types.Z;
 
             if (mode.length() > 1) {
