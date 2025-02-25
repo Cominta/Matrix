@@ -1,5 +1,7 @@
 package console;
 
+import console.inputResult.InputResult;
+import console.inputResult.InputResultNewMatrix;
 import exception.ExceptionHandler;
 import exception.ExceptionObj;
 import matrix.Matrix;
@@ -10,7 +12,7 @@ import matrix.elements.NumZ;
 import java.util.Scanner;
 
 public class CInput {
-    private static void readNewMatrix() {
+    private static Matrix readNewMatrix() {
         Scanner sc = new Scanner(System.in);
 
         COutput.printMessage("Enter size: ");
@@ -19,7 +21,7 @@ public class CInput {
 
         if (sizes.length != 2) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid input size"));
-            return;
+            return null;
         }
 
         int sizeX;
@@ -32,7 +34,7 @@ public class CInput {
 
         catch (Exception e) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Size is not a number"));
-            return;
+            return null;
         }
 
         COutput.printMessage("Enter mode: ");
@@ -49,7 +51,7 @@ public class CInput {
 
         else {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid mode"));
-            return;
+            return null;
         }
 
         Matrix matrix = new Matrix(sizeX, sizeY);
@@ -62,7 +64,7 @@ public class CInput {
 
             if (tokens.length != matrix.getSizeX()) {
                 ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid matrix size"));
-                return;
+                return null;
             }
 
             for (int j = 0; j < matrix.getSizeX(); j++) {
@@ -81,21 +83,45 @@ public class CInput {
         }
 
         COutput.printMatrix(matrix, "New matrix: ");
+        return matrix;
     }
 
-    public static void readCommand() {
+    public static void readOp(String op) {
+
+    }
+
+    public static InputResult readCommand() {
         Scanner sc = new Scanner(System.in);
 
         COutput.printMessage("Enter command: ");
         String cmd = sc.nextLine().replaceAll(" ", "");
 
         if (cmd.equals("new")) {
-            CInput.readNewMatrix();
+            Matrix result = CInput.readNewMatrix();
 
             if (!ExceptionHandler.isEmpty()) {
-                ExceptionHandler.printExceptions();
-                ExceptionHandler.clear();
+                return new InputResultNewMatrix(true, null);
             }
+
+            return new InputResultNewMatrix(true, result);
+        }
+
+        else if (cmd.equals("*")) {
+            CInput.readOp(cmd);
+
+            return new InputResult(true, InputResult.Types.INPUT_OP);
+        }
+
+        else if (cmd.equals("exit")) {
+            return new InputResult(false, InputResult.Types.INPUT_OP);
+        }
+
+        else {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid command"));
+            ExceptionHandler.printExceptions();
+            ExceptionHandler.clear();
+
+            return new InputResult(true, InputResult.Types.INPUT_OP);
         }
     }
 }
