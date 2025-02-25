@@ -3,6 +3,7 @@ package console;
 import console.inputResult.InputResult;
 import console.inputResult.InputResultMatrixOp;
 import console.inputResult.InputResultNewMatrix;
+import console.inputResult.InputResultOp;
 import exception.ExceptionHandler;
 import exception.ExceptionObj;
 import matrix.Matrix;
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 public class CInput {
     private static Matrix readNewMatrix() {
+        COutput.printMessage("Reading new matrix\n");
         Scanner sc = new Scanner(System.in);
 
         COutput.printMessage("Enter size: ");
@@ -101,7 +103,7 @@ public class CInput {
         return matrix;
     }
 
-    public static InputResultMatrixOp readOp(String[] op) {
+    private static InputResultMatrixOp readOp(String[] op) {
         ConcurrentSkipListMap<String, Integer> params = new ConcurrentSkipListMap<>();
         int countParams;
 
@@ -158,14 +160,74 @@ public class CInput {
             return null;
         }
 
-        params.put("row", n);
-        params.put("coef", k);
+        params.put("n", n);
+        params.put("k", k);
 
         if (countParams == 3) {
             params.put("multiplier", multiplier);
         }
 
         return new InputResultMatrixOp(true, params);
+    }
+
+    private static InputResultOp readSet(String[] op) {
+        ConcurrentSkipListMap<String, String> params = new ConcurrentSkipListMap<String, String>();
+
+        if (op.length < 2) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Not enough parameters"));
+            return null;
+        }
+
+        if (op[1].equals("currM")) {
+            if (op.length != 3) {
+                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Not enough parameters"));
+                return null;
+            }
+
+            params.put("op", "currM");
+            params.put("n", op[2]);
+        }
+
+        else {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid set parameter"));
+            return null;
+        }
+
+        return new InputResultOp(true, params, InputResult.Types.SET_OP);
+    }
+
+    private static InputResultOp readPrint(String[] op) {
+        ConcurrentSkipListMap<String, String> params = new ConcurrentSkipListMap<String, String>();
+
+        if (op.length < 2) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Not enough parameters"));
+            return null;
+        }
+
+        if (op[1].equals("mlist")) {
+            params.put("op", "mlist");
+        }
+
+        else if (op[1].equals("currM")) {
+            params.put("op", "currM");
+        }
+
+        else {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid print parameter"));
+            return null;
+        }
+
+        return new InputResultOp(true, params, InputResult.Types.PRINT_OP);
+    }
+
+    private static String[] deleteSpaces(String[] input) {
+        String[] cmdSplit = input.clone();
+
+        for (int i = 0; i < cmdSplit.length; i++) {
+            cmdSplit[i] = cmdSplit[i].replaceAll(" ", "");
+        }
+
+        return cmdSplit;
     }
 
     public static InputResult readCommand() {
@@ -187,17 +249,25 @@ public class CInput {
         }
 
         else if (cmdSplit[0].equals("*") || cmdSplit[0].equals("/") || cmdSplit[0].equals("-") || cmdSplit[0].equals("+") || cmdSplit[0].equals("s")) {
-            for (int i = 0; i < cmdSplit.length; i++) {
-                cmdSplit[i] = cmdSplit[i].replaceAll(" ", "");
-            }
-
-            InputResultMatrixOp result = CInput.readOp(cmdSplit);
+            InputResultMatrixOp result = CInput.readOp(CInput.deleteSpaces(cmdSplit));
 
             if (!ExceptionHandler.isEmpty()) {
                 return new InputResultMatrixOp(true, null);
             }
 
             return result;
+        }
+
+        else if (cmd.equals("+matrix") || cmd.equals("*matrix")) {
+            return new InputResultMatrixOp(true, null);
+        }
+
+        else if (cmdSplit[0].equals("set")) {
+            return CInput.readSet(CInput.deleteSpaces(cmdSplit));
+        }
+
+        else if (cmdSplit[0].equals("print")) {
+            return CInput.readPrint(CInput.deleteSpaces(cmdSplit));
         }
 
         else if (cmd.equals("exit")) {

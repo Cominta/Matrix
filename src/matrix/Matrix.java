@@ -33,8 +33,8 @@ public class Matrix {
     public void opLine(ConcurrentSkipListMap<String, Integer> params) throws CloneNotSupportedException {
         Element[][] newElements = this.elements.clone();
         int op = params.get("op");
-        int n = params.get("row");
-        int k = params.get("coef");
+        int n = params.get("n");
+        int k = params.get("k");
         int multiplier = 0;
 
         if (n >= this.sizeY) {
@@ -111,6 +111,8 @@ public class Matrix {
     public int getSizeX() { return sizeX; }
 
     public int getSizeY() { return sizeY; }
+
+    public Element.Types getMode() { return mode; }
 
     public Element getElement(int x, int y) {
         if (x >= 0 && x < sizeX && y >= 0 && y < sizeY) {

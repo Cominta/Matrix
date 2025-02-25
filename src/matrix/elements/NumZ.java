@@ -79,4 +79,6 @@ public class NumZ extends Element implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public int getCountZ() { return this.countZ; }
 }

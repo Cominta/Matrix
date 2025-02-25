@@ -5,7 +5,10 @@ public class InputResult {
         NONE,
         NEW_MATRIX,
         INPUT_OP,
-        MATRIX_OP
+        MATRIX_OP,
+        MWM_OP,
+        SET_OP,
+        PRINT_OP
     }
 
     protected boolean cont;

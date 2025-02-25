@@ -21,7 +21,7 @@ public class COutput {
             System.out.println();
         }
 
-        System.out.print("\n\n");
+        System.out.print("\n");
     }
 
     public static void printMatrix(Matrix matrix) {
