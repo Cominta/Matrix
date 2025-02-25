@@ -15,7 +15,7 @@ import java.util.Scanner;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class CInput {
-    private static Matrix readNewMatrix() {
+    private static InputResultNewMatrix readNewMatrix() {
         COutput.printMessage("Reading new matrix\n");
         Scanner sc = new Scanner(System.in);
 
@@ -25,7 +25,7 @@ public class CInput {
 
         if (sizes.length != 2) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid input size"));
-            return null;
+            return new InputResultNewMatrix(true, null);
         }
 
         int sizeX;
@@ -38,7 +38,7 @@ public class CInput {
 
         catch (Exception e) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Size is not a number"));
-            return null;
+            return new InputResultNewMatrix(true, null);
         }
 
         COutput.printMessage("Enter mode: ");
@@ -62,14 +62,14 @@ public class CInput {
 
                 catch (Exception e) {
                     ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Mode is not a number"));
-                    return null;
+                    return new InputResultNewMatrix(true, null);
                 }
             }
         }
 
         else {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid mode"));
-            return null;
+            return new InputResultNewMatrix(true, null);
         }
 
         Matrix matrix = new Matrix(sizeX, sizeY);
@@ -82,7 +82,7 @@ public class CInput {
 
             if (tokens.length != matrix.getSizeX()) {
                 ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid matrix size"));
-                return null;
+                return new InputResultNewMatrix(true, null);
             }
 
             for (int j = 0; j < matrix.getSizeX(); j++) {
@@ -100,7 +100,7 @@ public class CInput {
             }
         }
 
-        return matrix;
+        return new InputResultNewMatrix(true, matrix);
     }
 
     private static InputResultMatrixOp readOp(String[] op) {
@@ -135,7 +135,7 @@ public class CInput {
 
             default:
                 ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid op"));
-                return null;
+                return new InputResultMatrixOp(true, null);
         }
 
         int n; // row
@@ -157,7 +157,7 @@ public class CInput {
 
         catch (Exception e) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Params are not a number"));
-            return null;
+            return new InputResultMatrixOp(true, null);
         }
 
         params.put("n", n);
@@ -175,13 +175,13 @@ public class CInput {
 
         if (op.length < 2) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Not enough parameters"));
-            return null;
+            return new InputResultOp(true, null, InputResult.Types.NONE);
         }
 
         if (op[1].equals("currM")) {
             if (op.length != 3) {
                 ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Not enough parameters"));
-                return null;
+                return new InputResultOp(true, null, InputResult.Types.NONE);
             }
 
             params.put("op", "currM");
@@ -190,7 +190,7 @@ public class CInput {
 
         else {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid set parameter"));
-            return null;
+            return new InputResultOp(true, null, InputResult.Types.NONE);
         }
 
         return new InputResultOp(true, params, InputResult.Types.SET_OP);
@@ -201,7 +201,7 @@ public class CInput {
 
         if (op.length < 2) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Not enough parameters"));
-            return null;
+            return new InputResultOp(true, null, InputResult.Types.NONE);
         }
 
         if (op[1].equals("mlist")) {
@@ -214,7 +214,7 @@ public class CInput {
 
         else {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid print parameter"));
-            return null;
+            return new InputResultOp(true, null, InputResult.Types.NONE);
         }
 
         return new InputResultOp(true, params, InputResult.Types.PRINT_OP);
@@ -239,13 +239,7 @@ public class CInput {
         cmd = cmd.replaceAll(" ", "");
 
         if (cmd.equals("new")) {
-            Matrix result = CInput.readNewMatrix();
-
-            if (!ExceptionHandler.isEmpty()) {
-                return new InputResultNewMatrix(true, null);
-            }
-
-            return new InputResultNewMatrix(true, result);
+            return CInput.readNewMatrix();
         }
 
         else if (cmdSplit[0].equals("*") || cmdSplit[0].equals("/") || cmdSplit[0].equals("-") || cmdSplit[0].equals("+") || cmdSplit[0].equals("s")) {
