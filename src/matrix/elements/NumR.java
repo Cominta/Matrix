@@ -17,6 +17,22 @@ public class NumR extends Element {
         this.denominator = denominator;
     }
 
+    public int getNumerator() {
+        return numerator;
+    }
+
+    public void setNumerator(int numerator) {
+        this.numerator = numerator;
+    }
+
+    public int getDenominator() {
+        return denominator;
+    }
+
+    public void setDenominator(int denominator) {
+        this.denominator = denominator;
+    }
+
     public void fit() {
         if (denominator == 0) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.DIVIDE_BY_ZERO, "Divide by zero"));
@@ -58,7 +74,9 @@ public class NumR extends Element {
 
     @Override
     public void multiply(Element num) {
-
+        this.numerator *= num.getNumerator();
+        this.denominator *= num.getDenominator();
+        fit();
     }
 
     @Override
@@ -69,7 +87,9 @@ public class NumR extends Element {
 
     @Override
     public void divide(Element num) {
-
+        this.numerator *= num.getDenominator();
+        this.denominator *= num.getNumerator();
+        fit();
     }
 
     @Override
@@ -80,7 +100,10 @@ public class NumR extends Element {
 
     @Override
     public void add(Element num) {
-
+        this.numerator *= num.getDenominator();
+        this.numerator += num.getNumerator() * denominator;
+        denominator *= num.getDenominator();
+        fit();
     }
 
     @Override
@@ -91,7 +114,10 @@ public class NumR extends Element {
 
     @Override
     public void subtract(Element num) {
-
+        this.numerator *= num.getDenominator();
+        this.numerator -= num.getNumerator() * denominator;
+        denominator *= num.getDenominator();
+        fit();
     }
 
     @Override

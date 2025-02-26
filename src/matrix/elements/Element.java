@@ -7,7 +7,10 @@ public abstract class Element {
         O,
         V
     }
-
+    public abstract int getNumerator();
+    public abstract void setNumerator(int numerator);
+    public abstract int getDenominator();
+    public abstract void setDenominator(int denominator);
     public abstract void multiply(int num);
     public abstract void multiply(Element num);
     public abstract void divide(int num);
