@@ -18,8 +18,8 @@ To use this program, ensure you have the following:
 Clone the repository:
 
 ```sh
- git clone https://github.com/Cominta/Matrix/edit/master
- cd matrix-calculator
+ git clone https://github.com/Cominta/Matrix.git
+ cd matrix
 ```
 
 ## 🚀 Usage
@@ -35,7 +35,7 @@ new
 - You will be prompted to enter the **matrix size** (rows and columns).
 - Choose the **matrix mode**:
   - `R` for **real numbers**
-  - `Z<number>` for **integer numbers with a modulus**
+  - `Z<number>` for **prime integer numbers with a modulus**
 - Input **matrix values** row by row.
 
 ### 🔢 Perform Operations
@@ -45,7 +45,7 @@ new
 - **Addition**: `+ n k multiplier` *(Adds row **`n`** multiplied by **`multiplier`** to row **`k`**)*
 - **Subtraction**: `- n k multiplier` *(Subtracts row **`n`** multiplied by **`multiplier`** from row **`k`**)*
 - **Swap rows**: `s n k` *(Swaps row **`n`** with row **`k`**)*
-- **Multiplication with matrix**: `*matrix n k` *(Multiplies matrix n in list (or current if -1 or new matrix if -2) with k matrix in list (or current if -1 or new matrix if -2))*
+- **Multiplication with matrix**: `*matrix n k` *(Multiplies matrix n in list (or current if -1 or new matrix if -2) with k matrix in list (or current if -1 or new matrix if -2) and save result to matrix n)*
 
 ### 🖨 Set and Print
 

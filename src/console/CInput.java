@@ -84,8 +84,9 @@ public class CInput {
         Matrix matrix = new Matrix(sizeX, sizeY);
         matrix.setMode(type);
 
+        COutput.printMessage("Enter matrix:\n");
+
         for (int i = 0; i < matrix.getSizeY(); i++) {
-            COutput.printMessage("Enter line(" + i + "): ");
             String line = sc.nextLine();
             String[] tokens = line.split(" ");
 
