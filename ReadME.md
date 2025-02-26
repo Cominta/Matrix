@@ -18,8 +18,8 @@ To use this program, ensure you have the following:
 Clone the repository:
 
 ```sh
- git clone https://github.com/Cominta/Matrix/edit/master
- cd matrix-calculator
+ git clone https://github.com/Cominta/Matrix.git
+ cd matrix
 ```
 
 ## 🚀 Usage
@@ -35,7 +35,7 @@ new
 - You will be prompted to enter the **matrix size** (rows and columns).
 - Choose the **matrix mode**:
   - `R` for **real numbers**
-  - `Z<number>` for **integer numbers with a modulus**
+  - `Z<number>` for **prime integer numbers with a modulus**
 - Input **matrix values** row by row.
 
 ### 🔢 Perform Operations
