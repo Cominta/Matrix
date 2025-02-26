@@ -17,6 +17,7 @@ public class NumR extends Element {
         this.denominator = denominator;
     }
 
+
     public void fit() {
         if (denominator == 0) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.DIVIDE_BY_ZERO, "Divide by zero"));
@@ -52,46 +53,74 @@ public class NumR extends Element {
 
     @Override
     public void multiply(int num) {
-        numerator *= num;
-        fit();
+        multiply(num, 1);
     }
 
     @Override
     public void multiply(Element num) {
+        NumR numR = (NumR) num;
+        multiply(numR.numerator, numR.denominator);
+    }
 
+    @Override
+    public void multiply(int numerator, int denominator) {
+        this.numerator *= numerator;
+        this.denominator *= denominator;
+        fit();
     }
 
     @Override
     public void divide(int num) {
-        denominator *= num;
-        fit();
+        divide(num, 1);
     }
 
     @Override
     public void divide(Element num) {
-
+        NumR numR = (NumR) num;
+        divide(numR.numerator, numR.denominator);
     }
-
+    @Override
+    public void divide(int numerator, int denominator){
+        this.numerator *= denominator;
+        this.denominator *= numerator;
+        fit();
+    }
     @Override
     public void add(int num) {
-        numerator += num*denominator;
-        fit();
+        add(num, 1);
     }
 
     @Override
     public void add(Element num) {
-
+        NumR numR = (NumR) num;
+        add(numR.numerator, numR.denominator);
     }
 
     @Override
-    public void subtract(int num) {
-        numerator -= num*denominator;
+    public void add(int numerator, int denominator){
+        this.numerator *= denominator;
+        this.numerator += numerator * this.denominator;
+        this.denominator *= denominator;
         fit();
     }
 
     @Override
-    public void subtract(Element num) {
+    public void subtract(int num) {
+        subtract(num, 1);
+    }
 
+    @Override
+    public void subtract(Element num) {
+        NumR numR = (NumR) num;
+        subtract(numR.numerator, numR.denominator);
+    }
+
+    @Override
+    public void subtract(int numerator, int denominator){
+        this.numerator *= denominator;
+        this.numerator -= numerator * this.denominator;
+        this.denominator *= denominator;
+        fit();
     }
 
     @Override

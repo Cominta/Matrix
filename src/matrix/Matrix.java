@@ -158,8 +158,20 @@ public class Matrix {
     }
 
     private void sumMWM(Matrix matrix) {
-        return;
+        // Перевірка, чи матриці мають однаковий розмір
+        if (this.sizeX != matrix.getSizeX() || this.sizeY != matrix.getSizeY()) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INVALID_SIZES, "Invalid sizes of matrix"));
+            return;
+        }
+
+        // Створення нової матриці
+        Element[][] newElements = new Element[this.sizeY][this.sizeX];
+
+        this.elements = newElements;
     }
+
+
+
 
     public int getSizeX() { return sizeX; }
 
