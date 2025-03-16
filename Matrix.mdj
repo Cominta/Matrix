@@ -271,7 +271,7 @@
 											"top": 407,
 											"width": 411.4677734375,
 											"height": 13,
-											"text": "-multiplyLine(n: int, k: int)",
+											"text": "-multiplyLine(n: int, k: int, newElements: Element)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -288,7 +288,7 @@
 											"top": 422,
 											"width": 411.4677734375,
 											"height": 13,
-											"text": "-divideLine(n: int, k: int)",
+											"text": "-divideLine(n: int, k: int, newElements: Element)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -305,7 +305,7 @@
 											"top": 437,
 											"width": 411.4677734375,
 											"height": 13,
-											"text": "-sumLine(n: int, k: int, multiplier: int)",
+											"text": "-sumLine(n: int, k: int, multiplier: int, newElements: Element)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -322,7 +322,7 @@
 											"top": 452,
 											"width": 411.4677734375,
 											"height": 13,
-											"text": "-subtractLine(n: int, k: int, multiplier: int)",
+											"text": "-subtractLine(n: int, k: int, multiplier: int, newElements: Element)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7335,6 +7335,17 @@
 									},
 									"name": "k",
 									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoTAL6YBpsqs=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRQvpTupHs8="
+									},
+									"name": "newElements",
+									"type": {
+										"$ref": "AAAAAAGVObcXct/rU5M="
+									}
 								}
 							]
 						},
@@ -7364,6 +7375,17 @@
 									},
 									"name": "k",
 									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoTAvJYHmsGQ=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRSCIUZ+X9U="
+									},
+									"name": "newElements",
+									"type": {
+										"$ref": "AAAAAAGVObcXct/rU5M="
+									}
 								}
 							]
 						},
@@ -7402,6 +7424,17 @@
 									},
 									"name": "multiplier",
 									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoTBJy4NjQD8=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRTFAFKZrwU="
+									},
+									"name": "newElements",
+									"type": {
+										"$ref": "AAAAAAGVObcXct/rU5M="
+									}
 								}
 							]
 						},
@@ -7440,6 +7473,17 @@
 									},
 									"name": "multiplier",
 									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoTBr7oXTN00=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRUEOl1vBBo="
+									},
+									"name": "newElements",
+									"type": {
+										"$ref": "AAAAAAGVObcXct/rU5M="
+									}
 								}
 							]
 						},
