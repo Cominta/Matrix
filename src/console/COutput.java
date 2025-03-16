@@ -25,8 +25,8 @@ public class COutput {
 
         System.out.print("     ");
 
-        for (int i = 0; i < matrix.getSizeX() * maxSize; i++) {
-            System.out.print("");
+        for (int i = 0; i <= matrix.getSizeX() * maxSize; i++) {
+            System.out.print("_");
         }
 
         System.out.println();
@@ -50,7 +50,7 @@ public class COutput {
 
         System.out.print("     ");
 
-        for (int i = 0; i < matrix.getSizeX() * maxSize; i++) {
+        for (int i = 0; i <= matrix.getSizeX() * maxSize; i++) {
             System.out.print("‾");
         }
 

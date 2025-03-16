@@ -53,9 +53,9 @@ public class Matrix {
 
     private void sumLine(int n,  int k, int multiplier, Element[][] newElements) throws CloneNotSupportedException {
         for (int i = 0; i < this.sizeX; i++) {
-            Element element = (NumZ)newElements[k][i].clone();
+            Element element = (Element)newElements[n][i].clone();
             element.multiply(multiplier);
-            newElements[n][i].add(element);
+            newElements[k][i].add(element);
 
             if (!ExceptionHandler.isEmpty()) {
                 return;
@@ -65,7 +65,7 @@ public class Matrix {
 
     private void subtractLine(int n,  int k, int multiplier, Element[][] newElements) throws CloneNotSupportedException {
         for (int i = 0; i < this.sizeX; i++) {
-            Element element = (NumZ)newElements[k][i].clone();
+            Element element = (Element)newElements[k][i].clone();
             element.multiply(multiplier);
             newElements[n][i].subtract(element);
 
@@ -87,12 +87,12 @@ public class Matrix {
             return;
         }
 
-        if (k >= this.sizeY || k < 0) {
-            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
-            return;
-        }
-
         if (op == 4) {
+            if (k >= this.sizeY || k < 0) {
+                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
+                return;
+            }
+
             Element[] temp = newElements[n].clone();
             newElements[n] = newElements[k].clone();
             newElements[k] = temp;
@@ -100,24 +100,29 @@ public class Matrix {
 
         else {
             if (op >= 2) {
+                if (k >= this.sizeY || k < 0) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
+                    return;
+                }
+
                 multiplier = params.get("multiplier");
             }
 
             switch (op) {
                 case 0:
-                    this.multiplyLine(n, multiplier, newElements);
+                    this.multiplyLine(n, k, newElements);
                     break;
 
                 case 1:
-                    this.divideLine(n, multiplier, newElements);
+                    this.divideLine(n, k, newElements);
                     break;
 
                 case 2:
-                    this.sumLine(n, multiplier, multiplier, newElements);
+                    this.sumLine(n, k, multiplier, newElements);
                     break;
 
                 case 3:
-                    this.subtractLine(n, multiplier, multiplier, newElements);
+                    this.subtractLine(n, k, multiplier, newElements);
                     break;
             }
         }
