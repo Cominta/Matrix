@@ -62,7 +62,6 @@ public class NumR extends Element {
         multiply(numR.numerator, numR.denominator);
     }
 
-    @Override
     public void multiply(int numerator, int denominator) {
         this.numerator *= numerator;
         this.denominator *= denominator;
@@ -79,12 +78,13 @@ public class NumR extends Element {
         NumR numR = (NumR) num;
         divide(numR.numerator, numR.denominator);
     }
-    @Override
+
     public void divide(int numerator, int denominator){
         this.numerator *= denominator;
         this.denominator *= numerator;
         fit();
     }
+
     @Override
     public void add(int num) {
         add(num, 1);
@@ -96,7 +96,6 @@ public class NumR extends Element {
         add(numR.numerator, numR.denominator);
     }
 
-    @Override
     public void add(int numerator, int denominator){
         this.numerator *= denominator;
         this.numerator += numerator * this.denominator;
@@ -115,7 +114,6 @@ public class NumR extends Element {
         subtract(numR.numerator, numR.denominator);
     }
 
-    @Override
     public void subtract(int numerator, int denominator){
         this.numerator *= denominator;
         this.numerator -= numerator * this.denominator;

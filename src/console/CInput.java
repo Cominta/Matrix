@@ -11,7 +11,6 @@ import matrix.elements.Element;
 import matrix.elements.NumR;
 import matrix.elements.NumZ;
 
-
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentSkipListMap;
 
