@@ -44,8 +44,9 @@ new
 - **Division**: `/ n k` *(Divides row **`n`** by **`k`**)*
 - **Addition**: `+ n k multiplier` *(Adds row **`n`** multiplied by **`multiplier`** to row **`k`**)*
 - **Subtraction**: `- n k multiplier` *(Subtracts row **`n`** multiplied by **`multiplier`** from row **`k`**)*
-- **Swap rows**: `s n k` *(Swaps row **`n`** with row **`k`**)*
+- **Swap rows**: `swap n k` *(Swaps row **`n`** with row **`k`**)*
 - **Multiplication with matrix**: `*matrix n k` *(Multiplies matrix n in list (or current if -1 or new matrix if -2) with k matrix in list (or current if -1 or new matrix if -2) and save result to matrix n)*
+- **Sum with matrix**: `+matrix n k` *(Sum matrix n in list (or current if -1 or new matrix if -2) with k matrix in list (or current if -1 or new matrix if -2) and save result to matrix n)*
 
 ### 🖨 Set and Print
 
