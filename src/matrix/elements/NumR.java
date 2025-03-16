@@ -121,8 +121,7 @@ public class NumR extends Element {
         fit();
     }
 
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
+    public int getNumerator() { return this.numerator; }
+
+    public int getDenominator() { return this.denominator; }
 }

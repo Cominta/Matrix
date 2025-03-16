@@ -105,27 +105,27 @@ public class Matrix {
         this.elements = newElements;
     }
 
-    public void opMWM(int op, Matrix matrix) {
+    public void opMWM(int op, Matrix matrix) throws CloneNotSupportedException {
         if (this.sizeX != matrix.sizeY) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INVALID_SIZES, "Invalid sizes of matrix"));
             return;
         }
 
-        if (op == 5) {
+        if (this.mode != matrix.getMode()) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INVALID_MODES, "Invalid modes"));
+            return;
+        }
 
+        if (op == 5) {
+            this.sumMWM(matrix);
         }
 
         else if (op == 6) {
             this.multiplyMWM(matrix);
         }
-
-        else {
-            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Input operator"));
-            return;
-        }
     }
 
-    private void multiplyMWM(Matrix matrix) {
+    private void multiplyMWM(Matrix matrix) throws CloneNotSupportedException {
         Element[][] newElements = new Element[this.sizeY][matrix.sizeX];
         Element[][] thisElements = this.elements.clone();
 
@@ -142,8 +142,9 @@ public class Matrix {
                 }
 
                 for (int k = 0; k < this.sizeX; k++) {
-                    thisElements[i][k].multiply(matrix.getElement(j, k));
-                    sum.add(thisElements[i][k]);
+                    Element toSum = (Element)thisElements[i][k].clone();
+                    toSum.multiply(matrix.getElement(k, j));
+                    sum.add(toSum);
 
                     if (!ExceptionHandler.isEmpty()) {
                         return;
@@ -158,20 +159,26 @@ public class Matrix {
     }
 
     private void sumMWM(Matrix matrix) {
-        // Перевірка, чи матриці мають однаковий розмір
-        if (this.sizeX != matrix.getSizeX() || this.sizeY != matrix.getSizeY()) {
-            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INVALID_SIZES, "Invalid sizes of matrix"));
-            return;
-        }
-
-        // Створення нової матриці
         Element[][] newElements = new Element[this.sizeY][this.sizeX];
+
+        for (int i = 0; i < this.sizeY; i++) {
+            for (int j = 0; j < this.sizeX; j++) {
+                if (this.mode == Element.Types.Z) {
+                    NumZ newElement = new NumZ(((NumZ)this.elements[i][j]).getNumber());
+                    newElement.add(matrix.getElement(j, i));
+                    newElements[i][j] = newElement;
+                }
+
+                else if (this.mode == Element.Types.R) {
+                    NumR newElement = new NumR(((NumR)this.elements[i][j]).getNumerator(), ((NumR)this.elements[i][j]).getDenominator());
+                    newElement.add(matrix.getElement(j, i));
+                    newElements[i][j] = newElement;
+                }
+            }
+        }
 
         this.elements = newElements;
     }
-
-
-
 
     public int getSizeX() { return sizeX; }
 

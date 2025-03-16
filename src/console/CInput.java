@@ -339,9 +339,6 @@ public class CInput {
 
         else {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid command"));
-            ExceptionHandler.printExceptions();
-            ExceptionHandler.clear();
-
             return new InputResult(true, InputResult.Types.INPUT_OP);
         }
     }
