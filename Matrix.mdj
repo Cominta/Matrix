@@ -271,7 +271,7 @@
 											"top": 407,
 											"width": 411.4677734375,
 											"height": 13,
-											"text": "-multiplyLine()",
+											"text": "-multiplyLine(n: int, k: int)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -288,7 +288,7 @@
 											"top": 422,
 											"width": 411.4677734375,
 											"height": 13,
-											"text": "-divideLine()",
+											"text": "-divideLine(n: int, k: int)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -305,7 +305,7 @@
 											"top": 437,
 											"width": 411.4677734375,
 											"height": 13,
-											"text": "-sumLine()",
+											"text": "-sumLine(n: int, k: int, multiplier: int)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -322,7 +322,7 @@
 											"top": 452,
 											"width": 411.4677734375,
 											"height": 13,
-											"text": "-subtractLine()",
+											"text": "-subtractLine(n: int, k: int, multiplier: int)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7316,7 +7316,27 @@
 								"$ref": "AAAAAAGVObaZRt+w4Ds="
 							},
 							"name": "multiplyLine",
-							"visibility": "private"
+							"visibility": "private",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoS6QD3mR+hQ=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRQvpTupHs8="
+									},
+									"name": "n",
+									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoS6QD3mSaME=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRQvpTupHs8="
+									},
+									"name": "k",
+									"type": "int"
+								}
+							]
 						},
 						{
 							"_type": "UMLOperation",
@@ -7325,7 +7345,27 @@
 								"$ref": "AAAAAAGVObaZRt+w4Ds="
 							},
 							"name": "divideLine",
-							"visibility": "private"
+							"visibility": "private",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoS69O3th0kw=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRSCIUZ+X9U="
+									},
+									"name": "n",
+									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoS69PHti4d4=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRSCIUZ+X9U="
+									},
+									"name": "k",
+									"type": "int"
+								}
+							]
 						},
 						{
 							"_type": "UMLOperation",
@@ -7334,7 +7374,36 @@
 								"$ref": "AAAAAAGVObaZRt+w4Ds="
 							},
 							"name": "sumLine",
-							"visibility": "private"
+							"visibility": "private",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoS7jG3z7w4U=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRTFAFKZrwU="
+									},
+									"name": "n",
+									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoS7jG3z8tFM=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRTFAFKZrwU="
+									},
+									"name": "k",
+									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoS7jHHz9/A4=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRTFAFKZrwU="
+									},
+									"name": "multiplier",
+									"type": "int"
+								}
+							]
 						},
 						{
 							"_type": "UMLOperation",
@@ -7343,7 +7412,36 @@
 								"$ref": "AAAAAAGVObaZRt+w4Ds="
 							},
 							"name": "subtractLine",
-							"visibility": "private"
+							"visibility": "private",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoS8Pc36yxQg=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRUEOl1vBBo="
+									},
+									"name": "n",
+									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoS8Pc36zaa8=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRUEOl1vBBo="
+									},
+									"name": "k",
+									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGVoS8Pc360z6c=",
+									"_parent": {
+										"$ref": "AAAAAAGVoRUEOl1vBBo="
+									},
+									"name": "multiplier",
+									"type": "int"
+								}
+							]
 						},
 						{
 							"_type": "UMLOperation",

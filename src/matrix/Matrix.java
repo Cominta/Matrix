@@ -31,20 +31,48 @@ public class Matrix {
         this.mode = mode;
     }
 
-    private void multiplyLine() {
+    private void multiplyLine(int n,  int k, Element[][] newElements) {
+        for (int i = 0; i < this.sizeX; i++) {
+            newElements[n][i].multiply(k);
 
+            if (!ExceptionHandler.isEmpty()) {
+                return;
+            }
+        }
     }
 
-    private void divideLine() {
+    private void divideLine(int n,  int k, Element[][] newElements) {
+        for (int i = 0; i < this.sizeX; i++) {
+            newElements[n][i].divide(k);
 
+            if (!ExceptionHandler.isEmpty()) {
+                return;
+            }
+        }
     }
 
-    private void sumLine() {
+    private void sumLine(int n,  int k, int multiplier, Element[][] newElements) throws CloneNotSupportedException {
+        for (int i = 0; i < this.sizeX; i++) {
+            Element element = (NumZ)newElements[k][i].clone();
+            element.multiply(multiplier);
+            newElements[n][i].add(element);
 
+            if (!ExceptionHandler.isEmpty()) {
+                return;
+            }
+        }
     }
 
-    private void subtractLine() {
+    private void subtractLine(int n,  int k, int multiplier, Element[][] newElements) throws CloneNotSupportedException {
+        for (int i = 0; i < this.sizeX; i++) {
+            Element element = (NumZ)newElements[k][i].clone();
+            element.multiply(multiplier);
+            newElements[n][i].subtract(element);
 
+            if (!ExceptionHandler.isEmpty()) {
+                return;
+            }
+        }
     }
 
     public void opLine(ConcurrentSkipListMap<String, Integer> params) throws CloneNotSupportedException {
@@ -75,52 +103,22 @@ public class Matrix {
                 multiplier = params.get("multiplier");
             }
 
-            for (int i = 0; i < sizeX; i++) {
-                Element element = null;
+            switch (op) {
+                case 0:
+                    this.multiplyLine(n, multiplier, newElements);
+                    break;
 
-                if (op >= 2) {
-                    element = (NumZ)((NumZ)newElements[k][i]).clone();
-                }
-                // TODO  case 5 6 7 8
-                switch (op) {
-                    case 0:   // *
-                        newElements[n][i].multiply(k);
-                        break;
+                case 1:
+                    this.divideLine(n, multiplier, newElements);
+                    break;
 
-                    case 1: // /
-                        newElements[n][i].divide(k);
-                        break;
+                case 2:
+                    this.sumLine(n, multiplier, multiplier, newElements);
+                    break;
 
-                    case 2:
-                        element.multiply(multiplier);
-                        newElements[n][i].add(element);
-                        break;
-
-                    case 3:
-                        element.multiply(multiplier);
-                        newElements[n][i].subtract(element);
-                        break;
-
-                    case 5:
-
-                        break;
-
-                    case 6:
-
-                        break;
-
-                    case 7:
-
-                        break;
-
-                    case 8:
-
-                        break;
-                }
-
-                if (!ExceptionHandler.isEmpty()) {
-                    return;
-                }
+                case 3:
+                    this.subtractLine(n, multiplier, multiplier, newElements);
+                    break;
             }
         }
 
