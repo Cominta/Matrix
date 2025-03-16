@@ -12,10 +12,74 @@ import matrix.elements.NumR;
 import matrix.elements.NumZ;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+
+
 public class CInput {
+    public static InputResultNewMatrix readNewMatrixFromFile(String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            System.out.println("Reading new matrix from file: " + filePath);
+            // # MATRIX
+            String check = br.readLine();
+            if (check == null) throw new IOException("File is empty");
+            if (!check.equals("# MATRIX")){ throw new Exception("File in wrong format");}
+
+                String sizeLine = br.readLine();
+                String[] sizes = sizeLine.split(" ");
+
+                if (sizes.length != 2) throw new IllegalArgumentException("Invalid input size");
+
+                int sizeX = Integer.parseInt(sizes[1]);
+                int sizeY = Integer.parseInt(sizes[0]);
+                if (sizeX <= 0 || sizeY <= 0) throw new IllegalArgumentException("Invalid input size");
+
+                String mode = br.readLine();
+                if (mode == null || mode.isEmpty()) throw new IllegalArgumentException("Invalid mode");
+
+                Element.Types type;
+                int krat = -1;
+
+                if (mode.equals("R")) {
+                    type = Element.Types.R;
+                } else if (mode.charAt(0) == 'Z' || mode.charAt(0) == 'z') {
+                    type = Element.Types.Z;
+                    if (mode.length() > 1) {
+                        krat = Integer.parseInt(Character.toString(mode.charAt(1)));
+                        if (!NumZ.isPrime(krat)) {
+                            throw new IllegalArgumentException("Mode is not a prime number");
+                        }
+                    }
+                } else {
+                    throw new IllegalArgumentException("Invalid mode");
+                }
+
+                Matrix matrix = new Matrix(sizeX, sizeY);
+                matrix.setMode(type);
+
+                for (int i = 0; i < sizeY; i++) {
+                    String line = br.readLine();
+                    if (line == null) throw new IOException("Not enough rows in the file");
+                    String[] tokens = line.split(" ");
+                    if (tokens.length != sizeX) throw new IllegalArgumentException("Invalid matrix size");
+
+                    for (int j = 0; j < sizeX; j++) {
+                        Element element = (type == Element.Types.R) ? new NumR() : new NumZ(Integer.parseInt(tokens[j]), krat);
+                        matrix.setElement(element, j, i);
+                    }
+                }
+                return new InputResultNewMatrix(true, matrix);
+
+        } catch (Exception e) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, e.getMessage()));
+            return new InputResultNewMatrix(true, null);
+        }
+    }
+
     public static InputResultNewMatrix readNewMatrix() {
         COutput.printMessage("Reading new matrix\n");
         Scanner sc = new Scanner(System.in);
