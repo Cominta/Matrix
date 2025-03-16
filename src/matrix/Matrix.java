@@ -31,6 +31,22 @@ public class Matrix {
         this.mode = mode;
     }
 
+    private void multiplyLine() {
+
+    }
+
+    private void divideLine() {
+
+    }
+
+    private void sumLine() {
+
+    }
+
+    private void subtractLine() {
+
+    }
+
     public void opLine(ConcurrentSkipListMap<String, Integer> params) throws CloneNotSupportedException {
         Element[][] newElements = this.elements.clone();
         int op = params.get("op");
@@ -43,7 +59,18 @@ public class Matrix {
             return;
         }
 
-        if (op >= 0 && op <= 3) {
+        if (k >= this.sizeY || k < 0) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
+            return;
+        }
+
+        if (op == 4) {
+            Element[] temp = newElements[n].clone();
+            newElements[n] = newElements[k].clone();
+            newElements[k] = temp;
+        }
+
+        else {
             if (op >= 2) {
                 multiplier = params.get("multiplier");
             }
@@ -54,13 +81,13 @@ public class Matrix {
                 if (op >= 2) {
                     element = (NumZ)((NumZ)newElements[k][i]).clone();
                 }
-
+                // TODO  case 5 6 7 8
                 switch (op) {
-                    case 0:
+                    case 0:   // *
                         newElements[n][i].multiply(k);
                         break;
 
-                    case 1:
+                    case 1: // /
                         newElements[n][i].divide(k);
                         break;
 
@@ -73,6 +100,22 @@ public class Matrix {
                         element.multiply(multiplier);
                         newElements[n][i].subtract(element);
                         break;
+
+                    case 5:
+
+                        break;
+
+                    case 6:
+
+                        break;
+
+                    case 7:
+
+                        break;
+
+                    case 8:
+
+                        break;
                 }
 
                 if (!ExceptionHandler.isEmpty()) {
@@ -81,42 +124,30 @@ public class Matrix {
             }
         }
 
-        else if (op == 4) {
-            if (k >= this.sizeY || k < 0) {
-                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
-                return;
-            }
-
-            Element[] temp = newElements[n].clone();
-            newElements[n] = newElements[k].clone();
-            newElements[k] = temp;
-        }
-
-
         this.elements = newElements;
     }
 
-    public void opMWM(int op, Matrix matrix) throws CloneNotSupportedException {
+    public void opMWM(int op, Matrix matrix) {
         if (this.sizeX != matrix.sizeY) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INVALID_SIZES, "Invalid sizes of matrix"));
             return;
         }
 
-        if (this.mode != matrix.getMode()) {
-            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INVALID_MODES, "Invalid modes"));
-            return;
-        }
-
         if (op == 5) {
-            this.sumMWM(matrix);
+
         }
 
         else if (op == 6) {
             this.multiplyMWM(matrix);
         }
+
+        else {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Input operator"));
+            return;
+        }
     }
 
-    private void multiplyMWM(Matrix matrix) throws CloneNotSupportedException {
+    private void multiplyMWM(Matrix matrix) {
         Element[][] newElements = new Element[this.sizeY][matrix.sizeX];
         Element[][] thisElements = this.elements.clone();
 
@@ -133,9 +164,8 @@ public class Matrix {
                 }
 
                 for (int k = 0; k < this.sizeX; k++) {
-                    Element toSum = (Element)thisElements[i][k].clone();
-                    toSum.multiply(matrix.getElement(k, j));
-                    sum.add(toSum);
+                    thisElements[i][k].multiply(matrix.getElement(j, k));
+                    sum.add(thisElements[i][k]);
 
                     if (!ExceptionHandler.isEmpty()) {
                         return;
@@ -150,26 +180,20 @@ public class Matrix {
     }
 
     private void sumMWM(Matrix matrix) {
-        Element[][] newElements = new Element[this.sizeY][this.sizeX];
-
-        for (int i = 0; i < this.sizeY; i++) {
-            for (int j = 0; j < this.sizeX; j++) {
-                if (this.mode == Element.Types.Z) {
-                    NumZ newElement = new NumZ(((NumZ)this.elements[i][j]).getNumber());
-                    newElement.add(matrix.getElement(j, i));
-                    newElements[i][j] = newElement;
-                }
-
-                else if (this.mode == Element.Types.R) {
-                    NumR newElement = new NumR(((NumR)this.elements[i][j]).getNumerator(), ((NumR)this.elements[i][j]).getDenominator());
-                    newElement.add(matrix.getElement(j, i));
-                    newElements[i][j] = newElement;
-                }
-            }
+        // Перевірка, чи матриці мають однаковий розмір
+        if (this.sizeX != matrix.getSizeX() || this.sizeY != matrix.getSizeY()) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INVALID_SIZES, "Invalid sizes of matrix"));
+            return;
         }
+
+        // Створення нової матриці
+        Element[][] newElements = new Element[this.sizeY][this.sizeX];
 
         this.elements = newElements;
     }
+
+
+
 
     public int getSizeX() { return sizeX; }
 
