@@ -15,6 +15,7 @@ public class NumR extends Element {
     public NumR(int numerator, int denominator) {
         this.numerator = numerator;
         this.denominator = denominator;
+        this.fit();
     }
 
 

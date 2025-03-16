@@ -98,7 +98,24 @@ public class CInput {
                 Element element;
 
                 if (type == Element.Types.R) {
-                    element = new NumR();
+                    int numerator;
+                    int denomerator = 1;
+                    String[] number = tokens[j].split("/");
+
+                    try {
+                        numerator = Integer.parseInt(number[0]);
+
+                        if (number.length != 1) {
+                            denomerator = Integer.parseInt(number[1]);
+                        }
+                    }
+
+                    catch (Exception e) {
+                        ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Wrong number"));
+                        return new InputResultNewMatrix(true, null);
+                    }
+
+                    element = new NumR(numerator, denomerator);
                 }
 
                 else {
