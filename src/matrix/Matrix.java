@@ -43,7 +43,18 @@ public class Matrix {
             return;
         }
 
-        if (op >= 0 && op <= 3) {
+        if (op == 4) {
+            if (k >= this.sizeY || k < 0) {
+                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
+                return;
+            }
+
+            Element[] temp = newElements[n].clone();
+            newElements[n] = newElements[k].clone();
+            newElements[k] = temp;
+        }
+
+        else {
             if (op >= 2) {
                 if (k >= this.sizeY || k < 0) {
                     ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
@@ -59,13 +70,13 @@ public class Matrix {
                 if (op >= 2) {
                     element = (NumZ)((NumZ)newElements[k][i]).clone();
                 }
-
+                // TODO  case 5 6 7 8
                 switch (op) {
-                    case 0:
+                    case 0:   // *
                         newElements[n][i].multiply(k);
                         break;
 
-                    case 1:
+                    case 1: // /
                         newElements[n][i].divide(k);
                         break;
 
@@ -78,28 +89,28 @@ public class Matrix {
                         element.multiply(multiplier);
                         newElements[n][i].subtract(element);
                         break;
+
+                    case 5:
+
+                        break;
+
+                    case 6:
+
+                        break;
+
+                    case 7:
+
+                        break;
+
+                    case 8:
+
+                        break;
                 }
 
                 if (!ExceptionHandler.isEmpty()) {
                     return;
                 }
             }
-        }
-
-        else if (op == 4) {
-            if (k >= this.sizeY || k < 0) {
-                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
-                return;
-            }
-
-            Element[] temp = newElements[n].clone();
-            newElements[n] = newElements[k].clone();
-            newElements[k] = temp;
-        }
-
-        else {
-            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid op"));
-            return;
         }
 
         this.elements = newElements;

@@ -115,32 +115,54 @@ public class CInput {
 
     private static InputResultMatrixOp readOp(String[] op) {
         ConcurrentSkipListMap<String, Integer> params = new ConcurrentSkipListMap<>();
-        int countParams;
-
+        int countParams; //p1-first R p2-second R p3 - a(constanta)
+        // 1 2 3             3 6 9              9 6 9
+        // 2 4 6  R1 + R2 == 2 4 6  S1 + S2 ==  6 4 6
+        // 3 6 5             3 6 5              9 6 5
         switch (op[0]) {
             case "*":
-                countParams = 2;
-                params.put("op", 0);
-                break;
+                countParams = 2;                    // 1 2 3             1a 2a 3a
+                params.put("op", 0);                // 2 4 6  R1 * a  == 2  4  6
+                break;                              // 3 6 5             3  6  5
 
             case "/":
-                countParams = 2;
-                params.put("op", 1);
-                break;
+                countParams = 2;                    // 1 2 3             1/a 2/a 3/a
+                params.put("op", 1);                // 2 4 6  R1 / a  ==  2   4   6
+                break;                              // 3 6 5              3   6   5
 
             case "+":
-                countParams = 3;
-                params.put("op", 2);
-                break;
+                countParams = 3;                    // 1 2 3             3 6 9
+                params.put("op", 2);                // 2 4 6  R1 + R2 == 2 4 6
+                break;                              // 3 6 5             3 6 5
 
             case "-":
-                countParams = 3;
-                params.put("op", 3);
+                countParams = 3;                    // 1 2 3             -1 -2 -3
+                params.put("op", 3);                // 2 4 6  R1 - R2 == 2   4  6
+                break;                              // 3 6 5             3   6  5
+
+            case "swap":
+                countParams = 2;                    // 1 2 3             2 4 6
+                params.put("op", 4);                // 2 4 6  R1 swap R2 == 1 2 3
+                break;                              // 3 6 5             3 6 5
+
+            case "+s":                              // 1 2 3             3 6 9                      9 6 9
+                countParams = 3;                    // 2 4 6  R1 + R2 == 2 4 6          S1 + S2 ==  6 4 6
+                params.put("op", 5);                // 3 6 5             3 6 5                      9 6 5
                 break;
 
-            case "s":
-                countParams = 2;
-                params.put("op", 4);
+            case "*s":                              // 1 2 3             1a  2a  3a               1aa 2a 3a
+                countParams = 2;                    // 2 4 6  R1 * a  == 2   4   6      S1 * a ==  2a 4  6
+                params.put("op", 6);                // 3 6 5             3   6   5                 3a 6  5
+                break;
+
+            case "-s":                              // 1 2 3             -3 -2 -3                  -1 -2 -3
+                countParams = 3;                    // 2 4 6  R1 - R2 ==  2  4  6       S1 - S2 ==  -2  4  6
+                params.put("op", 7);                // 3 6 5              3  6  5                  -3  6  5
+                break;
+
+            case "/s":                              // 1 2 3             1/a 2/a 3/a               1/aa 2/a 3/a
+                countParams = 3;                    // 2 4 6  R1 / a ==  2    4   6     S1 / a ==  2/a   4   6
+                params.put("op", 8);                // 3 6 5             3    6   5                3/a   6   5
                 break;
 
             default:
