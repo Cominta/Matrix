@@ -45,11 +45,6 @@ public class Matrix {
 
         if (op >= 0 && op <= 3) {
             if (op >= 2) {
-                if (k >= this.sizeY || k < 0) {
-                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Out of range of matrix (k > sizeY || k < 0)"));
-                    return;
-                }
-
                 multiplier = params.get("multiplier");
             }
 
@@ -97,10 +92,6 @@ public class Matrix {
             newElements[k] = temp;
         }
 
-        else {
-            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Invalid op"));
-            return;
-        }
 
         this.elements = newElements;
     }
