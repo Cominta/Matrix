@@ -24,36 +24,60 @@ public class CInput {
             System.out.println("Reading new matrix from file: " + filePath);
             // # MATRIX
             String check = br.readLine();
-            if (check == null) throw new IOException("File is empty");
+
+            if (check == null) {
+                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "File is empty"));
+                return new InputResultNewMatrix(true, null);
+            }
+
             if (!check.equals("# MATRIX")){ throw new Exception("File in wrong format");}
 
                 String sizeLine = br.readLine();
                 String[] sizes = sizeLine.split(" ");
 
-                if (sizes.length != 2) throw new IllegalArgumentException("Invalid input size");
+                if (sizes.length != 2) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Invalid input size"));
+                    return new InputResultNewMatrix(true, null);
+                }
 
                 int sizeX = Integer.parseInt(sizes[1]);
                 int sizeY = Integer.parseInt(sizes[0]);
-                if (sizeX <= 0 || sizeY <= 0) throw new IllegalArgumentException("Invalid input size");
+
+                if (sizeX <= 0 || sizeY <= 0) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "File is empty"));
+                    return new InputResultNewMatrix(true, null);
+                }
 
                 String mode = br.readLine();
-                if (mode == null || mode.isEmpty()) throw new IllegalArgumentException("Invalid mode");
+
+                if (mode == null || mode.isEmpty()) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Invalid mode"));
+                    return new InputResultNewMatrix(true, null);
+                }
 
                 Element.Types type;
                 int krat = -1;
 
                 if (mode.equals("R")) {
                     type = Element.Types.R;
-                } else if (mode.charAt(0) == 'Z' || mode.charAt(0) == 'z') {
+                }
+
+                else if (mode.charAt(0) == 'Z' || mode.charAt(0) == 'z') {
                     type = Element.Types.Z;
+
                     if (mode.length() > 1) {
                         krat = Integer.parseInt(Character.toString(mode.charAt(1)));
+
                         if (!NumZ.isPrime(krat)) {
-                            throw new IllegalArgumentException("Mode is not a prime number");
+                            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Mode is not a prime number"));
+                            return new InputResultNewMatrix(true, null);
                         }
                     }
-                } else {
-                    throw new IllegalArgumentException("Invalid mode");
+                }
+
+                else {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Invalid mode"));
+                    return new InputResultNewMatrix(true, null);
                 }
 
                 Matrix matrix = new Matrix(sizeX, sizeY);
@@ -61,18 +85,29 @@ public class CInput {
 
                 for (int i = 0; i < sizeY; i++) {
                     String line = br.readLine();
-                    if (line == null) throw new IOException("Not enough rows in the file");
+
+                    if (line == null) {
+                        ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Not enough lines"));
+                        return new InputResultNewMatrix(true, null);
+                    }
+
                     String[] tokens = line.split(" ");
-                    if (tokens.length != sizeX) throw new IllegalArgumentException("Invalid matrix size");
+
+                    if (tokens.length != sizeX) {
+                        ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Invalid size"));
+                        return new InputResultNewMatrix(true, null);
+                    }
 
                     for (int j = 0; j < sizeX; j++) {
                         Element element = (type == Element.Types.R) ? new NumR() : new NumZ(Integer.parseInt(tokens[j]), krat);
                         matrix.setElement(element, j, i);
                     }
                 }
-                return new InputResultNewMatrix(true, matrix);
 
-        } catch (Exception e) {
+                return new InputResultNewMatrix(true, matrix);
+        }
+
+        catch (Exception e) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, e.getMessage()));
             return new InputResultNewMatrix(true, null);
         }
@@ -409,6 +444,17 @@ public class CInput {
 
         if (cmd.equals("new")) {
             return CInput.readNewMatrix();
+        }
+
+        else if (cmdSplit[0].equals("newf") && cmdSplit.length == 2) {
+            return CInput.readNewMatrixFromFile(cmdSplit[1]);
+        }
+
+        else if (cmdSplit[0].equals("save") && cmdSplit.length == 3) {
+            ConcurrentSkipListMap<String, String> params = new ConcurrentSkipListMap<String, String>();
+            params.put("path", cmdSplit[2]);
+            params.put("index", cmdSplit[1]);
+            return new InputResultOp(true, params, InputResult.Types.OUTPUT_OP);
         }
 
         else if (cmdSplit[0].equals("*") || cmdSplit[0].equals("/") || cmdSplit[0].equals("-") || cmdSplit[0].equals("+") || cmdSplit[0].equals("s")) {

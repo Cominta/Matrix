@@ -42,6 +42,31 @@ public class Main {
                 currentIndex = matrixList.size() - 1;
             }
 
+            else if (result.getType() == InputResult.Types.OUTPUT_OP) {
+                int index = -1;
+                ConcurrentSkipListMap<String, String> params = ((InputResultOp)result).getParams();
+
+                try {
+                    index = Integer.parseInt(params.get("index"));
+                }
+
+                catch (Exception e) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "Index is not a number"));
+                    continue;
+                }
+
+                if (index < 0 || index >= matrixList.size()) {
+                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.OUT_OF_RANGE, "Index is out of range"));
+                    continue;
+                }
+
+                COutput.saveToFile(params.get("path"), matrixList.get(index));
+
+                if (ExceptionHandler.isEmpty()) {
+                    COutput.printMatrix(matrixList.get(index), "Succeed save to file");
+                }
+            }
+
             else if (result.getType() == InputResult.Types.MATRIX_OP) {
                 if (currentMatrix == null) {
                     ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.NULL_MATRIX, "Null matrix"));

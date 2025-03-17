@@ -8,6 +8,7 @@ public class ExceptionObj {
         NULL_MATRIX,
         INVALID_MODES,
         INVALID_SIZES,
+        FILE_ERROR
     }
 
     Types type;

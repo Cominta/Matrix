@@ -8,7 +8,8 @@ public class InputResult {
         MATRIX_OP,
         MWM_OP,
         SET_OP,
-        PRINT_OP
+        PRINT_OP,
+        OUTPUT_OP
     }
 
     protected boolean cont;

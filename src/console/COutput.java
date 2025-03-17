@@ -1,5 +1,7 @@
 package console;
 
+import console.inputResult.InputResultNewMatrix;
+import exception.ExceptionHandler;
 import exception.ExceptionObj;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,22 +15,31 @@ public class COutput {
         try (FileWriter fw = new FileWriter(filePath)) {
             fw.write("# MATRIX\n");
             fw.write(matrix.getSizeX() + " " + matrix.getSizeY() + "\n");
+
             if(matrix.getMode() == Element.Types.R){
                 fw.write("R\n");
             }
+
             else{
                 fw.write("Z" + ((NumZ)matrix.getElement(0,0)).getCountZ() + "\n");
             }
+
             for (int i = 0; i < matrix.getSizeY(); i++) {
                 for (int j = 0; j < matrix.getSizeX(); j++) {
                     fw.write(matrix.getElement(j, i) + " ");
                 }
+
                 fw.write("\n");
             }
-        } catch (IOException e) {
-            System.err.println("Cannot save to file: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Error(xz 4o za error): " + e.getMessage());
+
+        }
+
+        catch (IOException e) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Cannot open file"));
+        }
+
+        catch (Exception e) {
+            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Unknown error"));
         }
     }
 
