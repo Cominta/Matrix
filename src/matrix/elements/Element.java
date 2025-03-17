@@ -3,9 +3,7 @@ package matrix.elements;
 public abstract class Element implements Cloneable {
     public enum Types {
         R,
-        Z,
-        O,
-        V
+        Z
     }
 
     public abstract void multiply(int num);
