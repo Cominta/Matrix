@@ -48,11 +48,13 @@ new
 - **Multiplication with matrix**: `*matrix n k` *(Multiplies matrix n in list (or current if -1 or new matrix if -2) with k matrix in list (or current if -1 or new matrix if -2) and save result to matrix n)*
 - **Sum with matrix**: `+matrix n k` *(Sum matrix n in list (or current if -1 or new matrix if -2) with k matrix in list (or current if -1 or new matrix if -2) and save result to matrix n)*
 
-### 🖨 Set and Print
+### 🖨 Commands
 
 - `set currM <matrix_id>`: **Sets the current matrix** to the specified ID.
 - `print mlist`: **Prints the list of available matrices.**
 - `print currM`: **Prints the current matrix.**
+- `newf <path>`: **Load matrix from file**
+- `save <index> <path>`: **Save matrix to file**
 
 ### ❌ Exit Program
 
