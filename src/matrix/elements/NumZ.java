@@ -92,10 +92,7 @@ public class NumZ extends Element implements Cloneable {
         this.subtract(((NumZ)num).number);
     }
 
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
     public int getCountZ() { return this.countZ; }
+
+    public int getNumber() { return this.number; }
 }

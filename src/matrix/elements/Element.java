@@ -1,6 +1,6 @@
 package matrix.elements;
 
-public abstract class Element {
+public abstract class Element implements Cloneable {
     public enum Types {
         R,
         Z,
@@ -16,4 +16,7 @@ public abstract class Element {
     public abstract void add(Element num);
     public abstract void subtract(int num);
     public abstract void subtract(Element num);
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

@@ -118,11 +118,6 @@ public class Main {
                     m2 = params.get("m2");
                 }
 
-                if (matrixList.get(m1).getMode() != matrixList.get(m2).getMode()) {
-                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INVALID_MODES, "Invalid modes of matrix"));
-                    continue;
-                }
-
                 matrixList.get(m1).opMWM(params.get("op"), matrixList.get(m2));
                 COutput.printMatrix(matrixList.get(m1), "Matrix after op: ");
             }

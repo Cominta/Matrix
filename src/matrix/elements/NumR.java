@@ -15,7 +15,9 @@ public class NumR extends Element {
     public NumR(int numerator, int denominator) {
         this.numerator = numerator;
         this.denominator = denominator;
+        this.fit();
     }
+
 
     public void fit() {
         if (denominator == 0) {
@@ -52,50 +54,75 @@ public class NumR extends Element {
 
     @Override
     public void multiply(int num) {
-        numerator *= num;
-        fit();
+        multiply(num, 1);
     }
 
     @Override
     public void multiply(Element num) {
+        NumR numR = (NumR) num;
+        multiply(numR.numerator, numR.denominator);
+    }
 
+    public void multiply(int numerator, int denominator) {
+        this.numerator *= numerator;
+        this.denominator *= denominator;
+        fit();
     }
 
     @Override
     public void divide(int num) {
-        denominator *= num;
-        fit();
+        divide(num, 1);
     }
 
     @Override
     public void divide(Element num) {
+        NumR numR = (NumR) num;
+        divide(numR.numerator, numR.denominator);
+    }
 
+    public void divide(int numerator, int denominator){
+        this.numerator *= denominator;
+        this.denominator *= numerator;
+        fit();
     }
 
     @Override
     public void add(int num) {
-        numerator += num*denominator;
-        fit();
+        add(num, 1);
     }
 
     @Override
     public void add(Element num) {
-
+        NumR numR = (NumR) num;
+        add(numR.numerator, numR.denominator);
     }
 
-    @Override
-    public void subtract(int num) {
-        numerator -= num*denominator;
+    public void add(int numerator, int denominator){
+        this.numerator *= denominator;
+        this.numerator += numerator * this.denominator;
+        this.denominator *= denominator;
         fit();
     }
 
     @Override
-    public void subtract(Element num) {
-
+    public void subtract(int num) {
+        subtract(num, 1);
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public void subtract(Element num) {
+        NumR numR = (NumR) num;
+        subtract(numR.numerator, numR.denominator);
     }
+
+    public void subtract(int numerator, int denominator){
+        this.numerator *= denominator;
+        this.numerator -= numerator * this.denominator;
+        this.denominator *= denominator;
+        fit();
+    }
+
+    public int getNumerator() { return this.numerator; }
+
+    public int getDenominator() { return this.denominator; }
 }
