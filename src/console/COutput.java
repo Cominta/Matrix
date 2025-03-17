@@ -28,7 +28,7 @@ public class COutput {
         } catch (IOException e) {
             System.err.println("Cannot save to file: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error(xz 4o za error): " + e.getMessage());
+            System.err.println("Error(xz     4o za error): " + e.getMessage());
         }
     }
 

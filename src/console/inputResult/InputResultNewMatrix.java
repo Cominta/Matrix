@@ -8,8 +8,14 @@ public class InputResultNewMatrix extends InputResult {
     public InputResultNewMatrix(boolean cont, Matrix matrix) {
         super(cont);
         this.matrix = matrix;
-        this.type = InputResult.Types.NEW_MATRIX;
+        this.type = Types.NONE;
     }
+    public InputResultNewMatrix(boolean cont, Matrix matrix, Types type) {
+        super(cont);
+        this.matrix = matrix;
+        this.type = type;
+    }
+
 
     public Matrix getMatrix() { return matrix; }
 }

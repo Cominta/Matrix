@@ -8,7 +8,10 @@ public class InputResult {
         MATRIX_OP,
         MWM_OP,
         SET_OP,
-        PRINT_OP
+        PRINT_OP,
+        // new
+        READ_FROM_FILE,
+        NEW_FROM_FILE,
     }
 
     protected boolean cont;

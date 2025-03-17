@@ -25,7 +25,7 @@ public class CInput {
             // # MATRIX
             String check = br.readLine();
             if (check == null) throw new IOException("File is empty");
-            if (!check.equals("# MATRIX")){ throw new Exception("File in wrong format");}
+            if (!check.equals("# MATRIX")){ throw new Exception("File in wrong format"); }
 
                 String sizeLine = br.readLine();
                 String[] sizes = sizeLine.split(" ");
@@ -46,6 +46,7 @@ public class CInput {
                     type = Element.Types.R;
                 } else if (mode.charAt(0) == 'Z' || mode.charAt(0) == 'z') {
                     type = Element.Types.Z;
+
                     if (mode.length() > 1) {
                         krat = Integer.parseInt(Character.toString(mode.charAt(1)));
                         if (!NumZ.isPrime(krat)) {
@@ -61,6 +62,7 @@ public class CInput {
 
                 for (int i = 0; i < sizeY; i++) {
                     String line = br.readLine();
+                    //System.out.print(line + "\n");
                     if (line == null) throw new IOException("Not enough rows in the file");
                     String[] tokens = line.split(" ");
                     if (tokens.length != sizeX) throw new IllegalArgumentException("Invalid matrix size");
@@ -70,7 +72,7 @@ public class CInput {
                         matrix.setElement(element, j, i);
                     }
                 }
-                return new InputResultNewMatrix(true, matrix);
+                return new InputResultNewMatrix(true, matrix, InputResult.Types.NEW_FROM_FILE);
 
         } catch (Exception e) {
             ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, e.getMessage()));
@@ -189,7 +191,7 @@ public class CInput {
             }
         }
 
-        return new InputResultNewMatrix(true, matrix);
+        return new InputResultNewMatrix(true, matrix, InputResult.Types.NEW_MATRIX);
     }
 
     private static InputResultMatrixOp readOp(String[] op) {
@@ -218,7 +220,7 @@ public class CInput {
                 break;                              // 3 6 5             3   6  5
 
             case "swap":
-                countParams = 2;                    // 1 2 3             2 4 6
+                countParams = 2;                    // 1 2 3              2 4 6
                 params.put("op", 4);                // 2 4 6  R1 swap R2 == 1 2 3
                 break;                              // 3 6 5             3 6 5
 
@@ -402,13 +404,17 @@ public class CInput {
     public static InputResult readCommand() {
         Scanner sc = new Scanner(System.in);
 
-        COutput.printMessage("Enter command: ");
+        COutput.printMessage("Enter command: "); // read C:\Users\denis\OneDrive\Рабочий стол\Matrix.txt
         String cmd = sc.nextLine();
         String[] cmdSplit = cmd.split(" ");
         cmd = cmd.replaceAll(" ", "");
 
         if (cmd.equals("new")) {
             return CInput.readNewMatrix();
+        }
+
+        else if (cmd.equals("exit")) {
+            return new InputResult(false, InputResult.Types.INPUT_OP);
         }
 
         else if (cmdSplit[0].equals("*") || cmdSplit[0].equals("/") || cmdSplit[0].equals("-") || cmdSplit[0].equals("+") || cmdSplit[0].equals("s")) {
@@ -433,8 +439,9 @@ public class CInput {
             return CInput.readPrint(CInput.deleteSpaces(cmdSplit));
         }
 
-        else if (cmd.equals("exit")) {
-            return new InputResult(false, InputResult.Types.INPUT_OP);
+        // NEW
+        else if (cmdSplit[0].equals("read")) {
+            return CInput.readNewMatrixFromFile(cmdSplit[1]);
         }
 
         else {

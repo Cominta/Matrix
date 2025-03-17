@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.io.IOException;
 
+import static console.CInput.readNewMatrixFromFile;
+
 public class Main {
     public static void main(String[] args) throws Exception {
         InputResult result = new InputResult(true, InputResult.Types.NONE);
@@ -182,6 +184,14 @@ public class Main {
 
                     COutput.printMatrix(currentMatrix, s);
                 }
+            }
+            //new
+            else if (result.getType() == InputResult.Types.READ_FROM_FILE) {
+                Matrix matrix = ((InputResultNewMatrix)result).getMatrix();
+                COutput.printMatrix(matrix, "New matrix: ");
+                matrixList.add(matrix);
+                currentMatrix = matrix;
+                currentIndex = matrixList.size() - 1;
             }
         }
     }
