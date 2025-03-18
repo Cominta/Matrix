@@ -225,4 +225,25 @@ public class Matrix {
     public void setElement(Element element, int x, int y) { this.elements[y][x] = element; }
 
     public void setMode(Element.Types mode) { this.mode = mode; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Matrix matrix)) {
+            return false;
+        }
+
+        if (matrix.getMode() != this.mode || matrix.sizeX != this.sizeX || matrix.sizeY != this.sizeY) {
+            return false;
+        }
+
+        for (int i = 0; i < this.sizeY; i++) {
+            for (int j = 0; j < this.sizeX; j++) {
+                if (this.elements[i][j] != matrix.getElement(j, i)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }

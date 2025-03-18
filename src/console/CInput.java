@@ -15,12 +15,16 @@ import matrix.elements.NumZ;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class CInput {
+    public static InputStream stream = System.in;
+
     public static InputResultNewMatrix readNewMatrixFromFile(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+
             System.out.println("Reading new matrix from file: " + filePath);
             // # MATRIX
             String check = br.readLine();
@@ -115,7 +119,7 @@ public class CInput {
 
     public static InputResultNewMatrix readNewMatrix() {
         COutput.printMessage("Reading new matrix\n");
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(stream);
 
         COutput.printMessage("Enter size(r/c): ");
         String sizeLine = sc.nextLine();
