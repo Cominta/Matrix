@@ -25,6 +25,12 @@ public class NumZ extends Element implements Cloneable {
 
     private void handleCountZ() {
         if (this.countZ != -1) {
+            if (this.number < 0) {
+                int abs = Math.abs(this.number);
+                int newNum = abs % this.countZ;
+                this.number = this.countZ - newNum;
+            }
+
             this.number = this.number % this.countZ;
         }
     }
