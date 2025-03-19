@@ -11,9 +11,10 @@ import matrix.elements.Element;
 import matrix.elements.NumZ;
 
 public class COutput {
+    public static boolean isPrint = true;
+
     public static void saveToFile(String filePath, Matrix matrix) {
         try (FileWriter fw = new FileWriter(filePath)) {
-            fw.write("# MATRIX\n");
             fw.write(matrix.getSizeX() + " " + matrix.getSizeY() + "\n");
 
             if(matrix.getMode() == Element.Types.R){
@@ -44,10 +45,18 @@ public class COutput {
     }
 
     public static void printMessage(String s) {
+        if (!isPrint) {
+            return;
+        }
+
         System.out.print("[+] " + s);
     }
 
     public static void printMatrix(Matrix matrix, String s) {
+        if (!isPrint) {
+            return;
+        }
+
         System.out.println("\n[+] " + s);
         int maxSize = -1;
 
@@ -63,7 +72,7 @@ public class COutput {
 
         System.out.print("     ");
 
-        for (int i = 0; i <= matrix.getSizeX() * maxSize; i++) {
+        for (int i = 0; i <= matrix.getSizeX() * maxSize + matrix.getSizeX() - 2; i++) {
             System.out.print("_");
         }
 
@@ -88,7 +97,7 @@ public class COutput {
 
         System.out.print("     ");
 
-        for (int i = 0; i <= matrix.getSizeX() * maxSize; i++) {
+        for (int i = 0; i <= matrix.getSizeX() * maxSize + matrix.getSizeX() - 2; i++) {
             System.out.print("‾");
         }
 
@@ -96,6 +105,10 @@ public class COutput {
     }
 
     public static void printMatrix(Matrix matrix) {
+        if (!isPrint) {
+            return;
+        }
+
         printMatrix(matrix, "Matrix: ");
     }
 

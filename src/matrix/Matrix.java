@@ -65,9 +65,9 @@ public class Matrix {
 
     private void subtractLine(int n,  int k, int multiplier, Element[][] newElements) throws CloneNotSupportedException {
         for (int i = 0; i < this.sizeX; i++) {
-            Element element = (Element)newElements[k][i].clone();
+            Element element = (Element)newElements[n][i].clone();
             element.multiply(multiplier);
-            newElements[n][i].subtract(element);
+            newElements[k][i].subtract(element);
 
             if (!ExceptionHandler.isEmpty()) {
                 return;
@@ -225,4 +225,40 @@ public class Matrix {
     public void setElement(Element element, int x, int y) { this.elements[y][x] = element; }
 
     public void setMode(Element.Types mode) { this.mode = mode; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Matrix matrix)) {
+            return false;
+        }
+
+        if (matrix.getMode() != this.mode || matrix.sizeX != this.sizeX || matrix.sizeY != this.sizeY) {
+            return false;
+        }
+
+        for (int i = 0; i < this.sizeY; i++) {
+            for (int j = 0; j < this.sizeX; j++) {
+                if (!this.elements[i][j].equals(matrix.getElement(j, i))) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public Matrix clone() throws CloneNotSupportedException {
+        Matrix matrix = new Matrix(this.sizeX, this.sizeY);
+
+        for (int i = 0; i < this.sizeY; i++) {
+            for (int j = 0; j < this.sizeX; j++) {
+                matrix.elements[i][j] = (Element) this.elements[i][j].clone();
+            }
+        }
+
+        matrix.setMode(this.mode);
+
+        return matrix;
+    }
 }

@@ -17,4 +17,9 @@ public abstract class Element implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return false;
+    }
 }

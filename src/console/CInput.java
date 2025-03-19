@@ -12,113 +12,18 @@ import matrix.elements.NumR;
 import matrix.elements.NumZ;
 
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class CInput {
-    public static InputResultNewMatrix readNewMatrixFromFile(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            System.out.println("Reading new matrix from file: " + filePath);
-            // # MATRIX
-            String check = br.readLine();
-
-            if (check == null) {
-                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "File is empty"));
-                return new InputResultNewMatrix(true, null);
-            }
-
-            if (!check.equals("# MATRIX")){ throw new Exception("File in wrong format");}
-
-                String sizeLine = br.readLine();
-                String[] sizes = sizeLine.split(" ");
-
-                if (sizes.length != 2) {
-                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Invalid input size"));
-                    return new InputResultNewMatrix(true, null);
-                }
-
-                int sizeX = Integer.parseInt(sizes[1]);
-                int sizeY = Integer.parseInt(sizes[0]);
-
-                if (sizeX <= 0 || sizeY <= 0) {
-                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "File is empty"));
-                    return new InputResultNewMatrix(true, null);
-                }
-
-                String mode = br.readLine();
-
-                if (mode == null || mode.isEmpty()) {
-                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Invalid mode"));
-                    return new InputResultNewMatrix(true, null);
-                }
-
-                Element.Types type;
-                int krat = -1;
-
-                if (mode.equals("R")) {
-                    type = Element.Types.R;
-                }
-
-                else if (mode.charAt(0) == 'Z' || mode.charAt(0) == 'z') {
-                    type = Element.Types.Z;
-
-                    if (mode.length() > 1) {
-                        krat = Integer.parseInt(Character.toString(mode.charAt(1)));
-
-                        if (!NumZ.isPrime(krat)) {
-                            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Mode is not a prime number"));
-                            return new InputResultNewMatrix(true, null);
-                        }
-                    }
-                }
-
-                else {
-                    ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Invalid mode"));
-                    return new InputResultNewMatrix(true, null);
-                }
-
-                Matrix matrix = new Matrix(sizeX, sizeY);
-                matrix.setMode(type);
-
-                for (int i = 0; i < sizeY; i++) {
-                    String line = br.readLine();
-
-                    if (line == null) {
-                        ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Not enough lines"));
-                        return new InputResultNewMatrix(true, null);
-                    }
-
-                    String[] tokens = line.split(" ");
-
-                    if (tokens.length != sizeX) {
-                        ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.FILE_ERROR, "Invalid size"));
-                        return new InputResultNewMatrix(true, null);
-                    }
-
-                    for (int j = 0; j < sizeX; j++) {
-                        Element element = (type == Element.Types.R) ? new NumR() : new NumZ(Integer.parseInt(tokens[j]), krat);
-                        matrix.setElement(element, j, i);
-                    }
-                }
-
-                return new InputResultNewMatrix(true, matrix);
-        }
-
-        catch (Exception e) {
-            ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, e.getMessage()));
-            return new InputResultNewMatrix(true, null);
-        }
-    }
+    public static Scanner scanner;
 
     public static InputResultNewMatrix readNewMatrix() {
         COutput.printMessage("Reading new matrix\n");
-        Scanner sc = new Scanner(System.in);
 
         COutput.printMessage("Enter size(r/c): ");
-        String sizeLine = sc.nextLine();
+        String sizeLine = scanner.nextLine();
         String[] sizes = sizeLine.split(" ");
 
         if (sizes.length != 2) {
@@ -145,7 +50,7 @@ public class CInput {
         }
 
         COutput.printMessage("Enter mode(Z/R): ");
-        String mode = sc.nextLine();
+        String mode = scanner.nextLine();
         Element.Types type;
         int krat = -1;
 
@@ -184,7 +89,7 @@ public class CInput {
         COutput.printMessage("Enter matrix:\n");
 
         for (int i = 0; i < matrix.getSizeY(); i++) {
-            String line = sc.nextLine();
+            String line = scanner.nextLine();
             String[] tokens = line.split(" ");
 
             if (tokens.length != matrix.getSizeX()) {
@@ -434,11 +339,9 @@ public class CInput {
         return cmdSplit;
     }
 
-    public static InputResult readCommand() {
-        Scanner sc = new Scanner(System.in);
-
+    public static InputResult readCommand() throws FileNotFoundException {
         COutput.printMessage("Enter command: ");
-        String cmd = sc.nextLine();
+        String cmd = scanner.nextLine();
         String[] cmdSplit = cmd.split(" ");
         cmd = cmd.replaceAll(" ", "");
 
@@ -447,7 +350,21 @@ public class CInput {
         }
 
         else if (cmdSplit[0].equals("newf") && cmdSplit.length == 2) {
-            return CInput.readNewMatrixFromFile(cmdSplit[1]);
+            Scanner temp = scanner;
+
+            try {
+                scanner = new Scanner(new FileInputStream(cmdSplit[1]));
+            }
+
+            catch (FileNotFoundException e) {
+                ExceptionHandler.report(new ExceptionObj(ExceptionObj.Types.INPUT_ERROR, "File not found"));
+                return new InputResultOp(true, null, InputResult.Types.NONE);
+            }
+
+            InputResultNewMatrix result = CInput.readNewMatrix();
+            scanner.close();
+            scanner = temp;
+            return result;
         }
 
         else if (cmdSplit[0].equals("save") && cmdSplit.length == 3) {

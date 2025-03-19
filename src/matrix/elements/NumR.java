@@ -2,6 +2,7 @@ package matrix.elements;
 
 import exception.ExceptionHandler;
 import exception.ExceptionObj;
+import matrix.Matrix;
 
 public class NumR extends Element {
     private int numerator;
@@ -125,4 +126,19 @@ public class NumR extends Element {
     public int getNumerator() { return this.numerator; }
 
     public int getDenominator() { return this.denominator; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof NumR num)) {
+            return false;
+        }
+
+        NumR numR = (NumR)obj;
+
+        if (this.numerator != numR.numerator || this.denominator != numR.denominator) {
+            return false;
+        }
+
+        return true;
+    }
 }
