@@ -21,3 +21,4 @@ set currM 5
 set currM 6
 - 0 1 5
 - 1 0 7
+exit
