@@ -238,7 +238,7 @@ public class Matrix {
 
         for (int i = 0; i < this.sizeY; i++) {
             for (int j = 0; j < this.sizeX; j++) {
-                if (this.elements[i][j] != matrix.getElement(j, i)) {
+                if (!this.elements[i][j].equals(matrix.getElement(j, i))) {
                     return false;
                 }
             }

@@ -12,16 +12,17 @@ import matrix.elements.NumZ;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class InputHandler {
-    public static void handleResult(InputResult result, ArrayList<Matrix> matrixList, Integer currentIndex, AtomicReference<Matrix> currentMatrix) throws CloneNotSupportedException {
+    public static void handleResult(InputResult result, ArrayList<Matrix> matrixList, AtomicInteger currentIndex, AtomicReference<Matrix> currentMatrix) throws CloneNotSupportedException {
         if (result.getType() == InputResult.Types.NEW_MATRIX) {
             Matrix matrix = ((InputResultNewMatrix)result).getMatrix();
             COutput.printMatrix(matrix, "New matrix: ");
             matrixList.add(matrix);
             currentMatrix.set(matrix);
-            currentIndex = matrixList.size() - 1;
+            currentIndex.set(matrixList.size() - 1);
         }
 
         else if (result.getType() == InputResult.Types.OUTPUT_OP) {
@@ -60,7 +61,7 @@ public class InputHandler {
 
             for (String key : params.keySet()) {
                 if (key.equals("op")) {
-                    return;
+                    continue;
                 }
 
                 s += key + ": " + params.get(key) + " | ";
@@ -88,7 +89,7 @@ public class InputHandler {
                     return;
                 }
 
-                m1 = currentIndex;
+                m1 = currentIndex.get();
             }
 
             else if (params.get("m1") == -2) {
@@ -110,7 +111,7 @@ public class InputHandler {
                     return;
                 }
 
-                m2 = currentIndex;
+                m2 = currentIndex.get();
             }
 
             else if (params.get("m2") == -2) {
@@ -150,7 +151,7 @@ public class InputHandler {
                 }
 
                 currentMatrix.set(matrixList.get(n));
-                currentIndex = n;
+                currentIndex.set(n);
             }
         }
 

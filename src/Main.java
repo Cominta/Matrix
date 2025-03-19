@@ -5,6 +5,8 @@ import exception.ExceptionHandler;
 import matrix.Matrix;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Main {
@@ -12,8 +14,9 @@ public class Main {
         InputResult result = new InputResult(true, InputResult.Types.NONE);
         ArrayList<Matrix> matrixList = new ArrayList<Matrix>();
         AtomicReference<Matrix> currentMatrix = new AtomicReference<>(null);
+        CInput.scanner = new Scanner(System.in);
 
-        int currentIndex = -1;
+        AtomicInteger currentIndex = new AtomicInteger(-1);
 
         while (result.isCont()) {
             if (!ExceptionHandler.isEmpty()) {
@@ -29,5 +32,7 @@ public class Main {
 
             InputHandler.handleResult(result, matrixList, currentIndex, currentMatrix);
         }
+
+        CInput.scanner.close();
     }
 }

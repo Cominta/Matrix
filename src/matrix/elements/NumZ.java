@@ -95,4 +95,19 @@ public class NumZ extends Element implements Cloneable {
     public int getCountZ() { return this.countZ; }
 
     public int getNumber() { return this.number; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof NumZ num)) {
+            return false;
+        }
+
+        NumZ numZ = (NumZ)obj;
+
+        if (this.number != numZ.number) {
+            return false;
+        }
+
+        return true;
+    }
 }
